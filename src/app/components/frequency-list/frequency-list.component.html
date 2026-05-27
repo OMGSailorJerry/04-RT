@@ -1,0 +1,48 @@
+<!-- frequency-list.component.html -->
+<div class="freq-list-host">
+
+  <div class="list-header">
+    <span class="list-title">· FREQUENCIES</span>
+    <span class="count-badge">{{ count() }}</span>
+  </div>
+
+  <div class="list-body">
+    @for (r of readings(); track r.id) {
+      <div
+        class="list-item"
+        [class.selected]="isSelected(r)"
+        (click)="select(r)"
+      >
+        <div class="item-main">
+          <span class="item-freq">{{ r.frequency }} MHz</span>
+          <span class="item-band">{{ r.band }}</span>
+        </div>
+        <div class="item-meta">
+          <span [class]="tagClass(r)">{{ r.noiseLevel }}</span>
+          <span class="item-ts">{{ r.timestamp | date:'HH:mm' }}</span>
+        </div>
+        <div class="menu-wrap">
+          <button class="btn-dots" (click)="toggleMenu(r, $event)" title="Options">⋮</button>
+          @if (menuOpenId() === r.id) {
+            <div class="dropdown">
+              <button class="drop-item" (click)="edit(r, $event)">Редагувати</button>
+              <button class="drop-item drop-item--danger" (click)="delete(r, $event)">Видалити</button>
+            </div>
+          }
+        </div>
+      </div>
+    }
+
+    @if (readings().length === 0) {
+      <div class="empty-hint">
+        NO ACTIVE EMISSIONS<br>
+        <span class="empty-sub">Click map to add.</span>
+      </div>
+    }
+  </div>
+
+  <div class="list-footer">
+    <button class="btn-add" (click)="addEmission()">+ ADD EMISSION</button>
+  </div>
+
+</div>

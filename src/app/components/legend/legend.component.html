@@ -1,0 +1,25 @@
+<!-- legend.component.html -->
+<div class="legend-host">
+
+  <div class="legend-header">
+    <span class="legend-title">NOISE LEVEL</span>
+  </div>
+
+  <div class="legend-body">
+    @for (item of items; track item.level) {
+      <div class="legend-item">
+        <span class="swatch" [style.background]="item.color"></span>
+        <div class="item-text">
+          <span [class]="tagClass(item.level)">{{ item.level }}</span>
+          <span class="item-range">{{ item.range }}</span>
+        </div>
+      </div>
+    }
+  </div>
+
+  <div class="legend-footer">
+    <span class="total-label">TOTAL</span>
+    <span class="total-count">{{ totalReadings() }}</span>
+  </div>
+
+</div>

@@ -1,0 +1,145 @@
+@import 'leaflet/dist/leaflet.css';
+
+/* ─── OCHRET Palette ──────────────────────────────── */
+:root {
+  --ochret-orange:      #F05A28;
+  --ochret-orange-soft: #FF7A45;
+  --ochret-orange-dark: #B93D16;
+
+  --graphite-950: #0B0C0D;
+  --graphite-900: #111315;
+  --graphite-850: #171A1D;
+  --graphite-800: #1D2125;
+  --graphite-750: #23282D;
+
+  --ochret-cream: #E8DDB5;
+  --steel-gray:   #5F6870;
+  --steel-light:  #8A949D;
+
+  --signal-cyan:     #5FAFC4;
+  --signal-cyan-dim: #3B7C8E;
+
+  --noise-low:    #4FAFCB;
+  --noise-medium: #D8A247;
+  --noise-high:   #F05A28;
+
+  --border-soft:   rgba(255,255,255,0.07);
+  --border-medium: rgba(255,255,255,0.12);
+  --border-orange: rgba(240,90,40,0.42);
+  --panel-glow:    rgba(240,90,40,0.10);
+
+  /* Legacy aliases — keeps existing component CSS working */
+  --bg-app:    var(--graphite-950);
+  --bg-panel:  var(--graphite-900);
+  --bg-panel2: var(--graphite-850);
+  --border:    var(--border-soft);
+  --border2:   var(--border-medium);
+  --text-1:    var(--ochret-cream);
+  --text-2:    var(--steel-light);
+  --text-3:    var(--steel-gray);
+  --low:       var(--noise-low);
+  --medium:    var(--noise-medium);
+  --high:      var(--noise-high);
+  --critical:  var(--noise-high);
+  --mono: 'IBM Plex Mono', 'Space Mono', 'Share Tech Mono', monospace;
+}
+
+/* ─── Reset ───────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+  background: var(--graphite-950);
+  color: var(--ochret-cream);
+  font-family: var(--mono);
+  letter-spacing: 0.04em;
+}
+
+/* ─── Scrollbars ──────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: var(--graphite-950); }
+::-webkit-scrollbar-thumb { background: var(--steel-gray); border-radius: 2px; }
+
+/* ─── Selection ───────────────────────────────────── */
+::selection { background: rgba(240,90,40,0.28); color: var(--ochret-cream); }
+
+/* ─── Noise level badges ──────────────────────────── */
+.tag-low {
+  color: var(--noise-low);
+  background: rgba(79,175,203,0.12);
+  border: 1px solid rgba(79,175,203,0.28);
+  border-radius: 3px;
+  padding: 1px 6px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  font-family: var(--mono);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.tag-medium {
+  color: var(--noise-medium);
+  background: rgba(216,162,71,0.12);
+  border: 1px solid rgba(216,162,71,0.28);
+  border-radius: 3px;
+  padding: 1px 6px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  font-family: var(--mono);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.tag-high {
+  color: var(--noise-high);
+  background: rgba(240,90,40,0.12);
+  border: 1px solid rgba(240,90,40,0.28);
+  border-radius: 3px;
+  padding: 1px 6px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  font-family: var(--mono);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* ─── Button base ─────────────────────────────────── */
+button {
+  font-family: var(--mono);
+  cursor: pointer;
+  border: none;
+  outline: none;
+  letter-spacing: 0.06em;
+}
+
+/* ─── Input / Select base ─────────────────────────── */
+input, select, textarea {
+  font-family: var(--mono);
+  background: var(--graphite-800);
+  color: var(--ochret-cream);
+  border: 1px solid var(--border-soft);
+  border-radius: 3px;
+  padding: 6px 8px;
+  font-size: 12px;
+  outline: none;
+  transition: border-color 0.2s;
+  letter-spacing: 0.04em;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: var(--ochret-orange);
+  box-shadow: 0 0 0 2px rgba(240,90,40,0.12);
+}
+
+select option {
+  background: var(--graphite-850);
+  color: var(--ochret-cream);
+}
