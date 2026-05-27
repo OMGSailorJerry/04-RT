@@ -1,0 +1,46 @@
+<!-- src/app/app.component.html -->
+<div class="app-shell">
+
+  <!-- ── Header ─────────────────────────────────── -->
+  <header class="app-header">
+    <div class="header-brand">
+      <span class="header-ochret">OCHRET</span>
+      <span class="header-arr">←</span>
+      <span class="header-title">RADIO NOISE MAP</span>
+    </div>
+    <div class="header-sep"></div>
+    <span class="header-sub">Моніторинг РЕО</span>
+    <div class="header-spacer"></div>
+    <div class="header-status">
+      <span class="status-dot"></span>
+      <span class="status-text">LINK: SECURE</span>
+    </div>
+    <div class="header-sep"></div>
+    <span class="header-time">{{ currentTime() }}</span>
+    <div class="header-sep"></div>
+    <button class="btn-export" (click)="exportCsv()">↓ EXPORT CSV</button>
+  </header>
+
+  <!-- ── Main: map + sidebar ────────────────────── -->
+  <div class="main-area">
+
+    <main class="map-area">
+      <app-map></app-map>
+    </main>
+
+    <aside class="sidebar">
+      <div class="sidebar-list">
+        <app-frequency-list></app-frequency-list>
+      </div>
+      <div class="sidebar-bottom">
+        @if (uiState.formMode()) {
+          <app-emission-form></app-emission-form>
+        } @else {
+          <app-frequency-detail></app-frequency-detail>
+        }
+      </div>
+    </aside>
+
+  </div>
+
+</div>

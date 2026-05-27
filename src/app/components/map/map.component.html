@@ -1,0 +1,30 @@
+<!-- src/app/components/map/map.component.html -->
+<div class="map-host">
+
+  <!-- Leaflet container -->
+  <div id="leaflet-map"></div>
+
+  <!-- Top HUD bar -->
+  <div class="hud-bar">
+    <div class="hud-brand">
+      <span class="hud-icon">📡</span>
+      <span class="hud-title">RADIO NOISE MAP</span>
+    </div>
+    <div class="hud-sub">Моніторинг радіоелектронної обстановки</div>
+  </div>
+
+  <!-- Legend panel (bottom-left) -->
+  <app-legend></app-legend>
+
+  <!-- Noise form modal -->
+  <app-noise-form
+    [visible]="formVisible()"
+    [lat]="pendingClick()?.lat ?? 0"
+    [lng]="pendingClick()?.lng ?? 0"
+    [editReading]="editingReading()"
+    (submitted)="onFormSubmit($event)"
+    (cancelled)="onFormCancel()"
+    (deleted)="onFormDelete()"
+  ></app-noise-form>
+
+</div>

@@ -1,0 +1,59 @@
+<!-- frequency-table.component.html -->
+<div class="table-host">
+
+  <div class="table-header">
+    <span class="table-title">FREQUENCY TABLE</span>
+  </div>
+
+  <div class="table-scroll">
+    <table>
+      <thead>
+        <tr>
+          <th>FREQUENCY (MHz)</th>
+          <th>BAND</th>
+          <th>NOISE LEVEL</th>
+          <th>USAGE %</th>
+          <th>LAST UPDATE</th>
+          <th>ACTIONS</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (r of readings(); track r.id) {
+          <tr [class]="rowClass(r)" (click)="select(r)">
+            <td class="col-freq">{{ r.frequency }} MHz</td>
+            <td class="col-band">{{ r.band }}</td>
+            <td class="col-level">
+              <span [class]="tagClass(r)">{{ r.noiseLevel }}</span>
+            </td>
+            <td class="col-usage">
+              <div class="usage-cell">
+                <div class="usage-bar-track">
+                  <div
+                    class="usage-bar-fill"
+                    [class.fill-low]="r.noiseLevel === 'LOW'"
+                    [class.fill-medium]="r.noiseLevel === 'MEDIUM'"
+                    [class.fill-high]="r.noiseLevel === 'HIGH'"
+                    [style.width.%]="r.usage"
+                  ></div>
+                </div>
+                <span class="usage-pct">{{ r.usage }}%</span>
+              </div>
+            </td>
+            <td class="col-ts">{{ r.timestamp | date:'dd.MM HH:mm' }}</td>
+            <td class="col-actions">
+              <button class="act-btn" (click)="edit(r, $event)" title="Edit">✏️</button>
+              <button class="act-btn act-del" (click)="remove(r, $event)" title="Delete">🗑️</button>
+            </td>
+          </tr>
+        }
+
+        @if (readings().length === 0) {
+          <tr>
+            <td colspan="6" class="empty-row">No frequency readings. Click on the map to add.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+</div>

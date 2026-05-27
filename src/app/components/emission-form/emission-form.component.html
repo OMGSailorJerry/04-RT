@@ -1,0 +1,79 @@
+<!-- emission-form.component.html -->
+<div class="form-host" [class.inactive]="!isActive()">
+
+  <div class="form-header">
+    <span class="form-title">{{ headerLabel }}</span>
+    @if (!isActive()) {
+      <span class="form-hint">Select or add an emission to edit</span>
+    }
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="confirm()" class="form-body">
+
+    <!-- Row 1: Frequency + Band -->
+    <div class="form-row">
+      <div class="form-field">
+        <label class="field-label">FREQUENCY (MHz)</label>
+        <input
+          type="number"
+          formControlName="frequency"
+          placeholder="e.g. 2400"
+          [attr.disabled]="!isActive() ? true : null"
+        />
+      </div>
+      <div class="form-field">
+        <label class="field-label">BAND</label>
+        <div class="band-display">{{ computedBand() }}</div>
+      </div>
+    </div>
+
+    <!-- Frequency Presets -->
+    <div class="form-field">
+      <label class="field-label">PRESETS</label>
+      <div class="preset-grid">
+        @for (p of presets; track p) {
+          <button
+            type="button"
+            class="preset-pill"
+            [class.active]="selectedPreset() === p"
+            [attr.disabled]="!isActive() ? true : null"
+            (click)="setPreset(p)"
+          >{{ p }}</button>
+        }
+      </div>
+    </div>
+
+    <!-- Row 2: Noise Level -->
+    <div class="form-row full-width">
+      <div class="form-field">
+        <label class="field-label">NOISE LEVEL</label>
+        <select formControlName="noiseLevel" [attr.disabled]="!isActive() ? true : null">
+          <option value="LOW">LOW</option>
+          <option value="MEDIUM">MEDIUM</option>
+          <option value="HIGH">HIGH</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Row 3: Notes -->
+    <div class="form-row full-width">
+      <div class="form-field">
+        <label class="field-label">NOTES</label>
+        <textarea
+          formControlName="notes"
+          rows="2"
+          placeholder="Optional notes…"
+          [attr.disabled]="!isActive() ? true : null"
+        ></textarea>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="form-actions">
+      <button type="submit" class="btn-confirm" [disabled]="!isActive() || form.invalid">CONFIRM</button>
+      <button type="button" class="btn-cancel" (click)="cancel()" [disabled]="!isActive()">CANCEL</button>
+    </div>
+
+  </form>
+
+</div>

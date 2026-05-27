@@ -1,0 +1,6 @@
+{
+  "buildCommand": "npx ng build",
+  "outputDirectory": "dist/radio-noise-map/browser",
+  "framework": null,
+  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+}

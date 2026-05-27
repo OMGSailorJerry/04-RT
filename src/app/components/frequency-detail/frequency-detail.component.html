@@ -1,0 +1,36 @@
+<!-- frequency-detail.component.html -->
+<div class="detail-host">
+
+  <div class="detail-header">
+    <span class="detail-title">FREQUENCY DETAIL</span>
+  </div>
+
+  @if (selected(); as r) {
+    <div class="detail-body">
+      <div class="detail-freq-row">
+        <div class="big-freq">{{ r.frequency }} MHz</div>
+        <div class="radar-ring"></div>
+      </div>
+
+      <div class="detail-row">
+        <span class="detail-label">BAND</span>
+        <span class="detail-value">{{ r.band }}</span>
+        <span [class]="tagClass(r)">{{ r.noiseLevel }}</span>
+      </div>
+
+      <div class="detail-row detail-ts">
+        <span class="detail-label">LAST UPDATE</span>
+        <span class="detail-value">{{ r.timestamp | date:'dd.MM.yyyy HH:mm:ss' }}</span>
+      </div>
+
+      @if (r.notes) {
+        <div class="detail-notes">{{ r.notes }}</div>
+      }
+    </div>
+  } @else {
+    <div class="detail-empty">
+      <span>Select a reading to view details</span>
+    </div>
+  }
+
+</div>

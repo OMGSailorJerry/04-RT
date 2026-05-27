@@ -1,0 +1,107 @@
+@if (visible()) {
+  <div class="modal-backdrop" (click)="cancel()">
+    <div class="modal-panel" (click)="$event.stopPropagation()">
+
+      <div class="modal-header">
+        <div class="modal-title">
+          <span class="modal-icon">📡</span>
+          <span>{{ editReading() ? 'Редагувати точку' : 'Нова точка вимірювання' }}</span>
+        </div>
+        <button class="btn-close" (click)="cancel()">✕</button>
+      </div>
+
+      <div class="coords-bar">
+        <span class="coord-chip">
+          <span class="coord-label">LAT</span>
+          <span class="coord-val">{{ lat() | number:'1.5-5' }}</span>
+        </span>
+        <span class="coord-chip">
+          <span class="coord-label">LNG</span>
+          <span class="coord-val">{{ lng() | number:'1.5-5' }}</span>
+        </span>
+      </div>
+
+      <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+
+        <!-- Noise Level Slider -->
+        <div class="field-group">
+          <label class="field-label">
+            Рівень радіошуму
+            <span class="dbm-badge" [style.background]="currentTier.color">
+              {{ noiseLevelValue }} dBm
+            </span>
+          </label>
+
+          <div class="slider-wrapper">
+            <input
+              type="range"
+              formControlName="noiseLevel"
+              min="-130"
+              max="0"
+              step="1"
+              class="noise-slider"
+              [style.--thumb-color]="currentTier.color"
+            />
+            <div class="slider-track-fill"
+                 [style.width.%]="((noiseLevelValue + 130) / 130) * 100"
+                 [style.background]="currentTier.color">
+            </div>
+          </div>
+
+          <div class="tier-indicator" [class]="currentTier.bgClass">
+            <span class="tier-dot" [style.background]="currentTier.color"></span>
+            <strong>{{ currentTier.label }}</strong>
+            <span class="tier-desc">— {{ currentTier.description }}</span>
+          </div>
+        </div>
+
+        <!-- Frequency (optional) -->
+        <div class="field-group">
+          <label class="field-label">
+            Частота (МГц) <span class="optional-tag">необов'язково</span>
+          </label>
+          <input
+            type="number"
+            formControlName="frequency"
+            placeholder="напр. 433, 868, 2400, 5800"
+            class="text-input"
+          />
+          <div class="freq-presets">
+            <button type="button" class="preset-btn" (click)="form.patchValue({frequency: 433})">433</button>
+            <button type="button" class="preset-btn" (click)="form.patchValue({frequency: 868})">868</button>
+            <button type="button" class="preset-btn" (click)="form.patchValue({frequency: 900})">900</button>
+            <button type="button" class="preset-btn" (click)="form.patchValue({frequency: 1300})">1300</button>
+            <button type="button" class="preset-btn" (click)="form.patchValue({frequency: 2400})">2.4G</button>
+            <button type="button" class="preset-btn" (click)="form.patchValue({frequency: 5800})">5.8G</button>
+          </div>
+        </div>
+
+        <!-- Label (optional) -->
+        <div class="field-group">
+          <label class="field-label">
+            Мітка <span class="optional-tag">необов'язково</span>
+          </label>
+          <input
+            type="text"
+            formControlName="label"
+            placeholder="напр. «ОП-7 рубіж»"
+            class="text-input"
+            maxlength="40"
+          />
+        </div>
+
+        <!-- Actions -->
+        <div class="form-actions">
+          <button type="button" class="btn btn-cancel" (click)="cancel()">Скасувати</button>
+          @if (editReading()) {
+            <button type="button" class="btn btn-delete" (click)="delete()">Видалити</button>
+          }
+          <button type="submit" class="btn btn-submit" [disabled]="form.invalid">
+            {{ editReading() ? 'Зберегти зміни' : 'Додати точку' }}
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+}
