@@ -54,6 +54,6 @@ export class FrequencyListComponent {
   }
 
   addEmission(): void {
-    this.uiState.startAdd(48.5, 32.0);
+    this.uiState.startAdd();
   }
 }

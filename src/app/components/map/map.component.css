@@ -56,9 +56,10 @@
   pointer-events: none;
   letter-spacing: 0.06em;
 }
-:host ::ng-deep .hex-label-low    { color: var(--noise-low);    background: rgba(79,175,203,.22); }
-:host ::ng-deep .hex-label-medium { color: var(--noise-medium); background: rgba(216,162,71,.22); }
-:host ::ng-deep .hex-label-high   { color: var(--noise-high);   background: rgba(240,90,40,.22);  }
+:host ::ng-deep .hex-label-low      { color: var(--noise-low);      background: rgba(79,175,203,.22);  }
+:host ::ng-deep .hex-label-medium   { color: var(--noise-medium);   background: rgba(216,162,71,.22); }
+:host ::ng-deep .hex-label-high     { color: var(--noise-high);     background: rgba(240,90,40,.22);  }
+:host ::ng-deep .hex-label-critical { color: var(--noise-critical); background: rgba(229,53,53,.22);  }
 
 /* ── Pending marker ────────────────────────────────── */
 :host ::ng-deep .pending-marker {
@@ -75,6 +76,12 @@
 @keyframes pendingPulse {
   0%, 100% { transform: scale(1);   opacity: 1;  }
   50%       { transform: scale(1.2); opacity: .7; }
+}
+
+/* ── Cell edit hover ───────────────────────────────── */
+:host ::ng-deep .hover-hex {
+  animation: none !important;
+  transition: opacity 0.08s;
 }
 
 /* ── Tooltip ───────────────────────────────────────── */

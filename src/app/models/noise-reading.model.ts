@@ -1,31 +1,29 @@
-// src/app/models/noise-reading.model.ts
-
-export type NoiseLevel = 'LOW' | 'MEDIUM' | 'HIGH';
+export type NoiseLevel = 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL';
 export type Band = 'UHF' | 'L-BAND' | 'S-BAND' | 'C-BAND' | 'X-BAND';
+export type EmissionType = 'radial' | 'sector';
 
 export interface NoiseReading {
   id: string;
   lat: number;
   lng: number;
-  h3Index: string;
-  frequency: number;       // MHz, required
+  cells: string[];
+  emissionType: EmissionType;
+  frequency: number;
   noiseLevel: NoiseLevel;
   band: Band;
+  power: number;        // 1–100 abstract power units
+  azimuth?: number;     // 0–359°, sector only
+  beamAngle?: number;   // 5–180°, sector only
   notes?: string;
   timestamp: Date;
-  color: string;           // computed from noiseLevel
+  color: string;
 }
 
 export const NOISE_COLORS: Record<NoiseLevel, string> = {
-  LOW:    '#3b82f6',
-  MEDIUM: '#f59e0b',
-  HIGH:   '#ef4444'
-};
-
-export const NOISE_LABEL: Record<NoiseLevel, string> = {
-  LOW:    'LOW',
-  MEDIUM: 'MEDIUM',
-  HIGH:   'HIGH'
+  LOW:      '#4FAFCB',
+  MEDIUM:   '#D8A247',
+  HIGH:     '#F05A28',
+  CRITICAL: '#E53535'
 };
 
 export function getBand(mhz: number): Band {

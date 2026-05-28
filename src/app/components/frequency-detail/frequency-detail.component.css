@@ -135,9 +135,10 @@
   transition: width 0.4s;
 }
 
-.fill-low    { background: var(--noise-low); }
-.fill-medium { background: var(--noise-medium); }
-.fill-high   { background: var(--noise-high); box-shadow: 0 0 6px rgba(240,90,40,0.4); }
+.fill-low      { background: var(--noise-low); }
+.fill-medium   { background: var(--noise-medium); }
+.fill-high     { background: var(--noise-high);     box-shadow: 0 0 6px rgba(240,90,40,0.4); }
+.fill-critical { background: var(--noise-critical); box-shadow: 0 0 6px rgba(229,53,53,0.4); }
 
 .detail-ts { margin-top: 2px; }
 .detail-ts .detail-value { font-size: 12px; }
@@ -152,6 +153,88 @@
   padding: 6px 8px;
   line-height: 1.6;
   letter-spacing: 0.03em;
+}
+
+.detail-sub {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--steel-gray);
+  letter-spacing: 0.06em;
+  margin-left: auto;
+}
+
+.cells-editing {
+  color: var(--ocheret-orange);
+  font-weight: 900;
+}
+
+/* ── Detail actions (bottom bar) ───────────── */
+.detail-actions {
+  padding: 8px 14px;
+  border-top: 1px solid var(--border-soft);
+  flex-shrink: 0;
+}
+
+.cell-edit-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.cell-edit-hints {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+}
+
+.hint-add  { color: var(--noise-low); }
+.hint-sep  { color: var(--steel-gray); }
+.hint-rem  { color: var(--noise-high); }
+
+.btn-done {
+  background: var(--ocheret-orange);
+  border: 1px solid var(--ocheret-orange);
+  color: #fff;
+  border-radius: 3px;
+  padding: 5px 14px;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
+.btn-done:hover {
+  background: var(--ocheret-orange-soft);
+  box-shadow: 0 0 8px rgba(240,90,40,0.4);
+}
+
+.btn-cell-edit {
+  width: 100%;
+  background: transparent;
+  border: 1px solid var(--border-soft);
+  color: var(--steel-light);
+  border-radius: 3px;
+  padding: 6px 10px;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+
+.btn-cell-edit:hover {
+  border-color: var(--ocheret-orange);
+  color: var(--ocheret-orange-soft);
+  background: rgba(240,90,40,0.06);
 }
 
 .detail-empty {

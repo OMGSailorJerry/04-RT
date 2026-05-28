@@ -19,9 +19,10 @@
   --signal-cyan:     #5FAFC4;
   --signal-cyan-dim: #3B7C8E;
 
-  --noise-low:    #4FAFCB;
-  --noise-medium: #D8A247;
-  --noise-high:   #F05A28;
+  --noise-low:      #4FAFCB;
+  --noise-medium:   #D8A247;
+  --noise-high:     #F05A28;
+  --noise-critical: #E53535;
 
   --border-soft:   rgba(255,255,255,0.07);
   --border-medium: rgba(255,255,255,0.12);
@@ -40,7 +41,7 @@
   --low:       var(--noise-low);
   --medium:    var(--noise-medium);
   --high:      var(--noise-high);
-  --critical:  var(--noise-high);
+  --critical:  var(--noise-critical);
   --mono: 'IBM Plex Mono', 'Space Mono', 'Share Tech Mono', monospace;
 }
 
@@ -101,6 +102,20 @@ html, body {
   color: var(--noise-high);
   background: rgba(240,90,40,0.12);
   border: 1px solid rgba(240,90,40,0.28);
+  border-radius: 3px;
+  padding: 1px 6px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  font-family: var(--mono);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.tag-critical {
+  color: var(--noise-critical);
+  background: rgba(229,53,53,0.12);
+  border: 1px solid rgba(229,53,53,0.28);
   border-radius: 3px;
   padding: 1px 6px;
   font-size: 12px;
