@@ -7,18 +7,16 @@
       <img class="header-logo" src="assets/logo.png" alt="04-RT" />
       <span class="header-title">RADIO NOISE MAP</span>
     </div>
-    <!-- <div class="header-sep"></div> -->
-    <!-- <span class="header-sub">Моніторинг РЕО</span> -->
     <div class="header-spacer"></div>
-    <!-- <div class="header-status">
-      <span class="status-dot"></span>
-      <span class="status-text">LINK: SECURE</span>
-    </div>
-    <div class="header-sep"></div> -->
     <span class="header-time">{{ currentTime() }}</span>
-    <!-- <div class="header-sep"></div> -->
-    <button class="btn-export" (click)="exportGeoJson()">↓ EXPORT JSON</button>
-    <button class="btn-export" (click)="exportCsv()">↓ EXPORT CSV</button>
+    <button class="btn-export" (click)="exportGeoJson()">
+      <span class="export-long">↓ EXPORT JSON</span>
+      <span class="export-short">↓ JSON</span>
+    </button>
+    <button class="btn-export" (click)="exportCsv()">
+      <span class="export-long">↓ EXPORT CSV</span>
+      <span class="export-short">↓ CSV</span>
+    </button>
   </header>
 
   <!-- ── Main: map + sidebar ────────────────────── -->
@@ -28,17 +26,28 @@
       <app-map></app-map>
     </main>
 
-    <aside class="sidebar">
-      @if (uiState.formMode()) {
-        <app-emission-form></app-emission-form>
-      } @else {
-        <div class="sidebar-list">
-          <app-frequency-list></app-frequency-list>
-        </div>
-        <div class="sidebar-bottom">
-          <app-frequency-detail></app-frequency-detail>
-        </div>
-      }
+    <aside class="sidebar" [class.sidebar--collapsed]="sidebarCollapsed()">
+
+      <!-- Drag handle (visible on mobile only) -->
+      <div class="sidebar-handle" (click)="toggleSidebar()">
+        <span class="handle-knob"></span>
+        <span class="handle-label">{{ sidebarCollapsed() ? '▲ SOURCES' : '▼' }}</span>
+      </div>
+
+      <!-- Content -->
+      <div class="sidebar-content">
+        @if (uiState.formMode()) {
+          <app-emission-form></app-emission-form>
+        } @else {
+          <div class="sidebar-list">
+            <app-frequency-list></app-frequency-list>
+          </div>
+          <div class="sidebar-bottom">
+            <app-frequency-detail></app-frequency-detail>
+          </div>
+        }
+      </div>
+
     </aside>
 
   </div>
