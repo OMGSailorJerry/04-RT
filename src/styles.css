@@ -75,7 +75,7 @@ html, body {
   border: 1px solid rgba(79,175,203,0.28);
   border-radius: 3px;
   padding: 1px 6px;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.08em;
   font-family: var(--mono);
@@ -89,7 +89,7 @@ html, body {
   border: 1px solid rgba(216,162,71,0.28);
   border-radius: 3px;
   padding: 1px 6px;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.08em;
   font-family: var(--mono);
@@ -103,7 +103,7 @@ html, body {
   border: 1px solid rgba(240,90,40,0.28);
   border-radius: 3px;
   padding: 1px 6px;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.08em;
   font-family: var(--mono);
@@ -128,7 +128,7 @@ input, select, textarea {
   border: 1px solid var(--border-soft);
   border-radius: 3px;
   padding: 6px 8px;
-  font-size: 12px;
+  font-size: 15px;
   outline: none;
   transition: border-color 0.2s;
   letter-spacing: 0.04em;

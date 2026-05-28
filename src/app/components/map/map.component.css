@@ -15,7 +15,7 @@
   background: var(--graphite-850) !important;
   color: var(--steel-light) !important;
   border-color: var(--border-soft) !important;
-  font-size: 14px !important;
+  font-size: 18px !important;
   transition: background 0.2s, color 0.2s !important;
 }
 :host ::ng-deep .leaflet-control-zoom a:hover {
@@ -33,7 +33,7 @@
 :host ::ng-deep .leaflet-control-attribution {
   background: rgba(11,12,13,0.75) !important;
   color: var(--steel-gray) !important;
-  font-size: 9px !important;
+  font-size: 11px !important;
   letter-spacing: 0.04em !important;
 }
 
@@ -51,7 +51,7 @@
   width: 20px; height: 20px;
   display: flex; align-items: center; justify-content: center;
   font-family: var(--mono);
-  font-size: 10px; font-weight: 900;
+  font-size: 12px; font-weight: 900;
   border-radius: 3px;
   pointer-events: none;
   letter-spacing: 0.06em;
@@ -64,7 +64,7 @@
 :host ::ng-deep .pending-marker {
   width: 28px; height: 28px;
   display: flex; align-items: center; justify-content: center;
-  font-size: 18px; font-weight: 900;
+  font-size: 22px; font-weight: 900;
   color: var(--ocheret-cream);
   background: rgba(240,90,40,0.2);
   border: 2px solid var(--ocheret-orange);
@@ -84,7 +84,7 @@
   border-radius: 4px !important;
   color: var(--ocheret-cream) !important;
   font-family: var(--mono) !important;
-  font-size: 11px !important;
+  font-size: 14px !important;
   padding: 7px 11px !important;
   box-shadow: 0 4px 16px rgba(0,0,0,.7), 0 0 8px var(--panel-glow) !important;
   white-space: nowrap !important;
