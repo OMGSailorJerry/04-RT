@@ -49,7 +49,7 @@
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.14em;
-  color: var(--ochret-orange);
+  color: var(--ocheret-orange);
   text-transform: uppercase;
 }
 
@@ -65,7 +65,7 @@
   border-radius: 3px;
   transition: color 0.2s, background 0.2s;
 }
-.btn-close:hover { color: var(--ochret-cream); background: rgba(255,255,255,0.06); }
+.btn-close:hover { color: var(--ocheret-cream); background: rgba(255,255,255,0.06); }
 
 /* Coords bar */
 .coords-bar {
@@ -97,7 +97,7 @@
 .coord-val {
   font-family: var(--mono);
   font-size: 11px;
-  color: var(--ochret-orange-soft);
+  color: var(--ocheret-orange-soft);
   font-weight: 700;
 }
 
@@ -164,10 +164,10 @@ form { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 16px
   width: 18px;
   height: 18px;
   border-radius: 50%;
-  background: var(--thumb-color, var(--ochret-orange));
+  background: var(--thumb-color, var(--ocheret-orange));
   cursor: pointer;
   border: 2px solid var(--graphite-850);
-  box-shadow: 0 0 8px var(--thumb-color, var(--ochret-orange));
+  box-shadow: 0 0 8px var(--thumb-color, var(--ocheret-orange));
   transition: transform 0.1s;
 }
 
@@ -207,7 +207,7 @@ form { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 16px
   transition: background 0.3s;
 }
 
-.tier-indicator strong { color: var(--ochret-cream); font-size: 11px; letter-spacing: 0.06em; }
+.tier-indicator strong { color: var(--ocheret-cream); font-size: 11px; letter-spacing: 0.06em; }
 .tier-desc { color: var(--steel-gray); font-size: 10px; }
 
 /* Text inputs */
@@ -215,7 +215,7 @@ form { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 16px
   background: var(--graphite-800);
   border: 1px solid var(--border-soft);
   border-radius: 3px;
-  color: var(--ochret-cream);
+  color: var(--ocheret-cream);
   font-size: 12px;
   padding: 8px 12px;
   font-family: var(--mono);
@@ -225,7 +225,7 @@ form { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 16px
   letter-spacing: 0.04em;
 }
 .text-input:focus {
-  border-color: var(--ochret-orange);
+  border-color: var(--ocheret-orange);
   box-shadow: 0 0 0 2px rgba(240,90,40,0.12);
 }
 .text-input::placeholder { color: var(--steel-gray); opacity: 0.6; }
@@ -251,8 +251,8 @@ form { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 16px
   letter-spacing: 0.06em;
 }
 .preset-btn:hover {
-  border-color: var(--ochret-orange);
-  color: var(--ochret-orange-soft);
+  border-color: var(--ocheret-orange);
+  color: var(--ocheret-orange-soft);
   background: rgba(240,90,40,0.08);
 }
 
@@ -288,12 +288,12 @@ form { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 16px
 .btn-delete:hover { background: rgba(240,90,40,0.2); }
 
 .btn-submit {
-  background: var(--ochret-orange);
+  background: var(--ocheret-orange);
   color: #fff;
-  border: 1px solid var(--ochret-orange);
+  border: 1px solid var(--ocheret-orange);
 }
 .btn-submit:hover:not(:disabled) {
-  background: var(--ochret-orange-soft);
+  background: var(--ocheret-orange-soft);
   box-shadow: 0 0 12px rgba(240,90,40,0.4);
 }
 .btn-submit:disabled { opacity: 0.4; cursor: not-allowed; }
