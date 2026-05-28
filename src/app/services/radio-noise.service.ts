@@ -1,9 +1,31 @@
 import { Injectable, signal } from '@angular/core';
-import { latLngToCell } from 'h3-js';
-import { NoiseReading, NoiseLevel, getBand, getNoiseColor } from '../models/noise-reading.model';
+import { NoiseReading, NoiseLevel, EmissionType, getBand, getNoiseColor } from '../models/noise-reading.model';
 
-const STORAGE_KEY = 'rnm_v3';
-const H3_RESOLUTION = 5;
+const STORAGE_KEY = 'rnm_v5';
+
+export interface AddReadingOpts {
+  lat: number;
+  lng: number;
+  cells: string[];
+  emissionType: EmissionType;
+  frequency: number;
+  noiseLevel: NoiseLevel;
+  power: number;
+  azimuth?: number;
+  beamAngle?: number;
+  notes?: string;
+}
+
+export interface UpdateReadingOpts {
+  cells: string[];
+  emissionType: EmissionType;
+  frequency: number;
+  noiseLevel: NoiseLevel;
+  power: number;
+  azimuth?: number;
+  beamAngle?: number;
+  notes?: string;
+}
 
 @Injectable({ providedIn: 'root' })
 export class RadioNoiseService {
@@ -14,25 +36,22 @@ export class RadioNoiseService {
     return this._readings();
   }
 
-  addReading(
-    lat: number,
-    lng: number,
-    frequency: number,
-    noiseLevel: NoiseLevel,
-    notes?: string
-  ): NoiseReading {
-    const band = getBand(frequency);
-    const color = getNoiseColor(noiseLevel);
+  addReading(opts: AddReadingOpts): NoiseReading {
     const reading: NoiseReading = {
       id: crypto.randomUUID(),
-      lat, lng,
-      h3Index: latLngToCell(lat, lng, H3_RESOLUTION),
-      frequency,
-      noiseLevel,
-      band,
-      notes,
+      lat: opts.lat,
+      lng: opts.lng,
+      cells: opts.cells,
+      emissionType: opts.emissionType,
+      frequency: opts.frequency,
+      noiseLevel: opts.noiseLevel,
+      band: getBand(opts.frequency),
+      power: opts.power,
+      azimuth: opts.azimuth,
+      beamAngle: opts.beamAngle,
+      notes: opts.notes,
       timestamp: new Date(),
-      color
+      color: getNoiseColor(opts.noiseLevel)
     };
     this._readings.update(list => {
       const updated = [...list, reading];
@@ -42,26 +61,34 @@ export class RadioNoiseService {
     return reading;
   }
 
-  updateReading(
-    id: string,
-    frequency: number,
-    noiseLevel: NoiseLevel,
-    notes?: string
-  ): void {
+  updateReading(id: string, opts: UpdateReadingOpts): void {
     this._readings.update(list => {
       const updated = list.map(r =>
         r.id === id
           ? {
               ...r,
-              frequency,
-              noiseLevel,
-              band: getBand(frequency),
-              color: getNoiseColor(noiseLevel),
-              notes,
+              cells: opts.cells,
+              emissionType: opts.emissionType,
+              frequency: opts.frequency,
+              noiseLevel: opts.noiseLevel,
+              band: getBand(opts.frequency),
+              power: opts.power,
+              azimuth: opts.azimuth,
+              beamAngle: opts.beamAngle,
+              notes: opts.notes,
+              color: getNoiseColor(opts.noiseLevel),
               timestamp: new Date()
             }
           : r
       );
+      this.saveToStorage(updated);
+      return updated;
+    });
+  }
+
+  updateCells(id: string, cells: string[]): void {
+    this._readings.update(list => {
+      const updated = list.map(r => r.id === id ? { ...r, cells } : r);
       this.saveToStorage(updated);
       return updated;
     });
@@ -91,11 +118,7 @@ export class RadioNoiseService {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (!raw) return [];
       const parsed = JSON.parse(raw) as NoiseReading[];
-      return parsed.map(r => ({
-        ...r,
-        timestamp: new Date(r.timestamp),
-        h3Index: r.h3Index ?? latLngToCell(r.lat, r.lng, H3_RESOLUTION)
-      }));
+      return parsed.map(r => ({ ...r, timestamp: new Date(r.timestamp) }));
     } catch (_) {
       return [];
     }

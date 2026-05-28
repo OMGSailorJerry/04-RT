@@ -6,7 +6,9 @@
   </div>
 
   @if (selected(); as r) {
+
     <div class="detail-body">
+
       <div class="detail-freq-row">
         <div class="big-freq">{{ r.frequency }} MHz</div>
         <div class="radar-ring"></div>
@@ -18,18 +20,62 @@
         <span [class]="tagClass(r)">{{ r.noiseLevel }}</span>
       </div>
 
+      <div class="detail-row">
+        <span class="detail-label">TYPE</span>
+        <span class="detail-value">{{ r.emissionType | uppercase }}</span>
+      </div>
+
+      <div class="detail-row">
+        <span class="detail-label">POWER</span>
+        <span class="detail-value">{{ r.power }} W</span>
+        <span class="detail-sub">k={{ ringK(r.power) }}</span>
+      </div>
+
+      @if (r.emissionType === 'sector') {
+        <div class="detail-row">
+          <span class="detail-label">AZIMUTH</span>
+          <span class="detail-value">{{ r.azimuth }}°</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">BEAM</span>
+          <span class="detail-value">{{ r.beamAngle }}°</span>
+        </div>
+      }
+
+      <div class="detail-row">
+        <span class="detail-label">CELLS</span>
+        <span class="detail-value" [class.cells-editing]="isCellEdit()">{{ r.cells.length }}</span>
+      </div>
+
       <div class="detail-row detail-ts">
-        <span class="detail-label">LAST UPDATE</span>
-        <span class="detail-value">{{ r.timestamp | date:'dd.MM.yyyy HH:mm:ss' }}</span>
+        <span class="detail-label">UPDATED</span>
+        <span class="detail-value">{{ r.timestamp | date:'dd.MM.yyyy HH:mm' }}</span>
       </div>
 
       @if (r.notes) {
         <div class="detail-notes">{{ r.notes }}</div>
       }
+
     </div>
+
+    <div class="detail-actions">
+      @if (isCellEdit()) {
+        <div class="cell-edit-bar">
+          <div class="cell-edit-hints">
+            <span class="hint-add">● ADD</span>
+            <span class="hint-sep">·</span>
+            <span class="hint-rem">● REMOVE</span>
+          </div>
+          <button class="btn-done" (click)="stopCellEdit()">✓ DONE</button>
+        </div>
+      } @else {
+        <button class="btn-cell-edit" (click)="startCellEdit(r)">⊞ EDIT CELLS</button>
+      }
+    </div>
+
   } @else {
     <div class="detail-empty">
-      <span>Select a reading to view details</span>
+      <span>Select a reading<br>to view details</span>
     </div>
   }
 

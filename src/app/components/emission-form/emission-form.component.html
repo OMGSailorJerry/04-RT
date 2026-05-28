@@ -4,76 +4,119 @@
   <div class="form-header">
     <span class="form-title">{{ headerLabel }}</span>
     @if (!isActive()) {
-      <span class="form-hint">Select or add an emission to edit</span>
+      <span class="form-hint">Select or add an emission</span>
     }
   </div>
 
-  <form [formGroup]="form" (ngSubmit)="confirm()" class="form-body">
+  <form [formGroup]="form" (ngSubmit)="confirm()" class="form-wrapper">
 
-    <!-- Row 1: Frequency + Band -->
-    <div class="form-row">
-      <div class="form-field">
-        <label class="field-label">FREQUENCY (MHz)</label>
-        <input
-          type="number"
-          formControlName="frequency"
-          placeholder="e.g. 2400"
-          [attr.disabled]="!isActive() ? true : null"
-        />
-      </div>
-      <div class="form-field">
-        <label class="field-label">BAND</label>
-        <div class="band-display">{{ computedBand() }}</div>
-      </div>
-    </div>
+    <div class="form-body">
 
-    <!-- Frequency Presets -->
-    <div class="form-field">
-      <label class="field-label">PRESETS</label>
-      <div class="preset-grid">
-        @for (p of presets; track p) {
-          <button
-            type="button"
-            class="preset-pill"
-            [class.active]="selectedPreset() === p"
-            [attr.disabled]="!isActive() ? true : null"
-            (click)="setPreset(p)"
-          >{{ p }}</button>
+      <!-- Emission type toggle -->
+      <div class="type-toggle">
+        <button type="button" class="type-btn" [class.active]="emissionType() === 'radial'"
+          [disabled]="!isActive()" (click)="setType('radial')">◎ RADIAL</button>
+        <button type="button" class="type-btn" [class.active]="emissionType() === 'sector'"
+          [disabled]="!isActive()" (click)="setType('sector')">⦿ SECTOR</button>
+      </div>
+
+      <!-- Coords (add mode only) -->
+      @if (formMode() === 'add') {
+        @if (uiState.mapPending(); as p) {
+          <div class="coords-bar">
+            <div class="coord-chip">
+              <span class="coord-label">LAT</span>
+              <span class="coord-val">{{ p.lat | number:'1.4-4' }}</span>
+            </div>
+            <div class="coord-chip">
+              <span class="coord-label">LNG</span>
+              <span class="coord-val">{{ p.lng | number:'1.4-4' }}</span>
+            </div>
+          </div>
+        } @else {
+          <div class="map-hint">↑ Click map to set emission center</div>
         }
-      </div>
-    </div>
+      }
 
-    <!-- Row 2: Noise Level -->
-    <div class="form-row full-width">
+      <!-- Frequency + Band -->
+      <div class="form-row">
+        <div class="form-field">
+          <label class="field-label">FREQ (MHz)</label>
+          <input type="number" formControlName="frequency" placeholder="e.g. 2400"
+            [attr.disabled]="!isActive() ? true : null" />
+        </div>
+        <div class="form-field">
+          <label class="field-label">BAND</label>
+          <div class="band-display">{{ computedBand() }}</div>
+        </div>
+      </div>
+
+      <!-- Presets -->
       <div class="form-field">
-        <label class="field-label">NOISE LEVEL</label>
-        <select formControlName="noiseLevel" [attr.disabled]="!isActive() ? true : null">
-          <option value="LOW">LOW</option>
-          <option value="MEDIUM">MEDIUM</option>
-          <option value="HIGH">HIGH</option>
-        </select>
+        <label class="field-label">PRESETS</label>
+        <div class="preset-grid">
+          @for (p of presets; track p) {
+            <button type="button" class="preset-pill"
+              [class.active]="selectedPreset() === p"
+              [attr.disabled]="!isActive() ? true : null"
+              (click)="setPreset(p)">{{ p }}</button>
+          }
+        </div>
       </div>
-    </div>
 
-    <!-- Row 3: Notes -->
-    <div class="form-row full-width">
+      <!-- Power + derived noise level -->
+      <div class="form-field">
+        <div class="field-label-row">
+          <span class="field-label">POWER</span>
+          <span [class]="noiseLevelClass()">{{ noiseLevel() }}</span>
+          <span class="field-val-badge">{{ power() }} W · k={{ powerK() }}</span>
+        </div>
+        <input type="range" class="range-input" min="1" max="100"
+          [value]="power()" (input)="setPower($event)"
+          [attr.disabled]="!isActive() ? true : null" />
+      </div>
+
+      <!-- Sector controls -->
+      @if (emissionType() === 'sector') {
+        <div class="form-field">
+          <div class="field-label-row">
+            <span class="field-label">AZIMUTH</span>
+            <span class="field-val-badge">{{ azimuth() }}°</span>
+          </div>
+          <input type="range" class="range-input" min="0" max="359"
+            [value]="azimuth()" (input)="setAzimuth($event)"
+            [attr.disabled]="!isActive() ? true : null" />
+        </div>
+        <div class="form-field">
+          <div class="field-label-row">
+            <span class="field-label">BEAM ANGLE</span>
+            <span class="field-val-badge">{{ beamAngle() }}°</span>
+          </div>
+          <input type="range" class="range-input" min="5" max="180"
+            [value]="beamAngle()" (input)="setBeamAngle($event)"
+            [attr.disabled]="!isActive() ? true : null" />
+        </div>
+      }
+
+      <!-- Notes -->
       <div class="form-field">
         <label class="field-label">NOTES</label>
-        <textarea
-          formControlName="notes"
-          rows="2"
-          placeholder="Optional notes…"
-          [attr.disabled]="!isActive() ? true : null"
-        ></textarea>
+        <textarea formControlName="notes" rows="2" placeholder="Optional notes…"
+          [attr.disabled]="!isActive() ? true : null"></textarea>
       </div>
+
     </div>
 
-    <!-- Actions -->
+    <!-- Actions — always pinned to bottom -->
     <div class="form-actions">
-      <button type="submit" class="btn-confirm" [disabled]="!isActive() || form.invalid">CONFIRM</button>
-      <button type="button" class="btn-cancel" (click)="cancel()" [disabled]="!isActive()">CANCEL</button>
+      <button type="submit" class="btn-confirm"
+        [disabled]="!isActive() || form.invalid || (formMode() === 'add' && !hasPending())">
+        CONFIRM
+      </button>
+      <button type="button" class="btn-cancel" (click)="cancel()" [disabled]="!isActive()">
+        CANCEL
+      </button>
     </div>
 
   </form>
-
 </div>

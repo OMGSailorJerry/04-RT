@@ -28,16 +28,16 @@
     </main>
 
     <aside class="sidebar">
-      <div class="sidebar-list">
-        <app-frequency-list></app-frequency-list>
-      </div>
-      <div class="sidebar-bottom">
-        @if (uiState.formMode()) {
-          <app-emission-form></app-emission-form>
-        } @else {
+      @if (uiState.formMode()) {
+        <app-emission-form></app-emission-form>
+      } @else {
+        <div class="sidebar-list">
+          <app-frequency-list></app-frequency-list>
+        </div>
+        <div class="sidebar-bottom">
           <app-frequency-detail></app-frequency-detail>
-        }
-      </div>
+        </div>
+      }
     </aside>
 
   </div>
