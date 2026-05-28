@@ -35,7 +35,7 @@
   left: 0;
   right: 0;
   height: 1px;
-  background: linear-gradient(90deg, var(--ochret-orange) 0%, transparent 60%);
+  background: linear-gradient(90deg, var(--ocheret-orange) 0%, transparent 60%);
   opacity: 0.5;
 }
 
@@ -45,18 +45,18 @@
   gap: 8px;
 }
 
-.header-ochret {
+.header-ocheret {
   font-family: var(--mono);
   font-size: 13px;
   font-weight: 900;
   letter-spacing: 0.22em;
-  color: var(--ochret-orange);
+  color: var(--ocheret-orange);
   text-transform: uppercase;
 }
 
 .header-arr {
   font-size: 12px;
-  color: var(--ochret-orange-dark);
+  color: var(--ocheret-orange-dark);
 }
 
 .header-title {
@@ -64,7 +64,7 @@
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.18em;
-  color: var(--ochret-cream);
+  color: var(--ocheret-cream);
   text-transform: uppercase;
 }
 
@@ -120,7 +120,7 @@
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.1em;
-  color: var(--ochret-cream);
+  color: var(--ocheret-cream);
   white-space: nowrap;
   min-width: 72px;
   text-align: right;
@@ -129,7 +129,7 @@
 .btn-export {
   background: transparent;
   border: 1px solid var(--border-orange);
-  color: var(--ochret-orange-soft);
+  color: var(--ocheret-orange-soft);
   border-radius: 3px;
   padding: 5px 12px;
   font-family: var(--mono);
@@ -144,7 +144,7 @@
 
 .btn-export:hover {
   background: var(--panel-glow);
-  border-color: var(--ochret-orange);
+  border-color: var(--ocheret-orange);
   box-shadow: 0 0 8px var(--panel-glow);
 }
 

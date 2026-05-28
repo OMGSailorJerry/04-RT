@@ -20,7 +20,7 @@
 }
 :host ::ng-deep .leaflet-control-zoom a:hover {
   background: var(--graphite-800) !important;
-  color: var(--ochret-cream) !important;
+  color: var(--ocheret-cream) !important;
   border-color: var(--border-orange) !important;
 }
 :host ::ng-deep .leaflet-control-zoom {
@@ -65,9 +65,9 @@
   width: 28px; height: 28px;
   display: flex; align-items: center; justify-content: center;
   font-size: 18px; font-weight: 900;
-  color: var(--ochret-cream);
+  color: var(--ocheret-cream);
   background: rgba(240,90,40,0.2);
-  border: 2px solid var(--ochret-orange);
+  border: 2px solid var(--ocheret-orange);
   border-radius: 50%;
   box-shadow: 0 0 12px rgba(240,90,40,0.4);
   animation: pendingPulse 1.2s ease-in-out infinite;
@@ -82,7 +82,7 @@
   background: rgba(17,19,21,0.97) !important;
   border: 1px solid var(--border-orange) !important;
   border-radius: 4px !important;
-  color: var(--ochret-cream) !important;
+  color: var(--ocheret-cream) !important;
   font-family: var(--mono) !important;
   font-size: 11px !important;
   padding: 7px 11px !important;
