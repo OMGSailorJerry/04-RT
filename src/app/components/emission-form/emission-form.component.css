@@ -329,3 +329,54 @@
 }
 
 .btn-cancel:disabled { opacity: 0.35; cursor: not-allowed; }
+
+/* ══ Mobile (≤ 767px) ═══════════════════════════════ */
+@media (max-width: 767px) {
+
+  .form-body {
+    padding: 8px 12px;
+    gap: 10px;
+  }
+
+  /* Larger touch targets for inputs */
+  .form-field input[type="number"],
+  .form-field select,
+  .form-field textarea {
+    font-size: 14px;
+    padding: 8px 10px;
+    min-height: 40px;
+  }
+
+  /* Larger type toggle buttons */
+  .type-btn {
+    padding: 9px 0;
+    font-size: 12px;
+    min-height: 40px;
+  }
+
+  /* Larger preset pills */
+  .preset-pill {
+    padding: 8px 0;
+    font-size: 11px;
+    min-height: 36px;
+  }
+
+  /* Bigger range thumb for touch */
+  .range-input::-webkit-slider-thumb {
+    width: 20px;
+    height: 20px;
+  }
+
+  .range-input {
+    height: 4px;
+    margin-top: 6px;
+  }
+
+  /* Action buttons */
+  .btn-confirm,
+  .btn-cancel {
+    padding: 11px;
+    font-size: 13px;
+    min-height: 44px;
+  }
+}

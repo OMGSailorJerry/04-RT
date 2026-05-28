@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, signal, effect } from '@angular/core';
 import { MapComponent } from './components/map/map.component';
 import { FrequencyListComponent } from './components/frequency-list/frequency-list.component';
 import { EmissionFormComponent } from './components/emission-form/emission-form.component';
@@ -24,9 +24,21 @@ export class AppComponent {
   private noiseService = inject(RadioNoiseService);
   readonly uiState = inject(UiStateService);
   readonly currentTime = signal(this.formatTime());
+  readonly sidebarCollapsed = signal(false);
 
   constructor() {
     setInterval(() => this.currentTime.set(this.formatTime()), 1000);
+
+    // Auto-expand bottom panel when form opens or item is selected (mobile UX)
+    effect(() => {
+      if (this.uiState.formMode() || this.uiState.selectedId()) {
+        this.sidebarCollapsed.set(false);
+      }
+    });
+  }
+
+  toggleSidebar(): void {
+    this.sidebarCollapsed.update(v => !v);
   }
 
   private formatTime(): string {

@@ -1,5 +1,10 @@
 /* frequency-list.component.css */
 
+:host {
+  display: block;
+  height: 100%;
+}
+
 .freq-list-host {
   display: flex;
   flex-direction: column;
@@ -217,4 +222,40 @@
 .btn-add:hover {
   background: var(--panel-glow);
   box-shadow: 0 0 8px var(--panel-glow);
+}
+
+/* ══ Mobile (≤ 767px) ═══════════════════════════════ */
+@media (max-width: 767px) {
+
+  /* Bigger tap targets */
+  .list-item {
+    padding: 10px 10px 10px 12px;
+    min-height: 48px;
+  }
+
+  .item-freq {
+    font-size: 14px;
+  }
+
+  .btn-dots {
+    font-size: 22px;
+    padding: 0 6px;
+    min-width: 32px;
+    min-height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Bigger dropdown items */
+  .drop-item {
+    padding: 11px 16px;
+    font-size: 13px;
+  }
+
+  .btn-add {
+    padding: 10px;
+    font-size: 13px;
+    min-height: 44px;
+  }
 }

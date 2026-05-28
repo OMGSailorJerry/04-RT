@@ -133,6 +133,8 @@ button {
   border: none;
   outline: none;
   letter-spacing: 0.06em;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* ─── Input / Select base ─────────────────────────── */
