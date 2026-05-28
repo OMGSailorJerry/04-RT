@@ -6,6 +6,7 @@ import { FrequencyDetailComponent } from './components/frequency-detail/frequenc
 import { RadioNoiseService } from './services/radio-noise.service';
 import { UiStateService } from './services/ui-state.service';
 import { NoiseReading } from './models/noise-reading.model';
+import { cellsToMultiPolygon } from 'h3-js';
 
 @Component({
   selector: 'app-root',
@@ -32,6 +33,46 @@ export class AppComponent {
     return new Date().toLocaleTimeString('uk-UA', {
       hour: '2-digit', minute: '2-digit', second: '2-digit'
     });
+  }
+
+  exportGeoJson(): void {
+    const readings = this.noiseService.getSnapshot();
+    if (!readings.length) return;
+
+    const features = readings.map((r: NoiseReading) => {
+      // formatAsGeoJson=true → [lng, lat] order, matching GeoJSON spec
+      const polys = cellsToMultiPolygon(r.cells, true);
+      const geometry = polys.length === 1
+        ? { type: 'Polygon', coordinates: polys[0] }
+        : { type: 'MultiPolygon', coordinates: polys };
+
+      return {
+        type: 'Feature',
+        properties: {
+          affiliation: 'friendly',
+          frequencies: [{ from: r.frequency, to: r.frequency }],
+          type: 'ecm_active',
+          updated_at: r.timestamp.toISOString(),
+          name: r.id,
+          zone_id: r.id,
+          fill: 'blue',
+          noise_level: r.noiseLevel,
+          power: r.power,
+          band: r.band,
+          ...(r.notes ? { notes: r.notes } : {})
+        },
+        geometry
+      };
+    });
+
+    const geojson = { type: 'FeatureCollection', features };
+    const blob = new Blob([JSON.stringify(geojson, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `mock_zones.json`;
+    a.click();
+    URL.revokeObjectURL(url);
   }
 
   exportCsv(): void {
