@@ -46,21 +46,21 @@
   align-items: center;
   gap: 10px;
   font-family: var(--mono);
-  font-size: 12px;
+  font-size: 15px;
   font-weight: 700;
   letter-spacing: 0.14em;
   color: var(--ocheret-orange);
   text-transform: uppercase;
 }
 
-.modal-icon { font-size: 16px; }
+.modal-icon { font-size: 20px; }
 
 .btn-close {
   background: none;
   border: none;
   color: var(--steel-gray);
   cursor: pointer;
-  font-size: 15px;
+  font-size: 19px;
   padding: 4px 8px;
   border-radius: 3px;
   transition: color 0.2s, background 0.2s;
@@ -88,7 +88,7 @@
 
 .coord-label {
   font-family: var(--mono);
-  font-size: 9px;
+  font-size: 11px;
   color: var(--steel-gray);
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -96,7 +96,7 @@
 
 .coord-val {
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 14px;
   color: var(--ocheret-orange-soft);
   font-weight: 700;
 }
@@ -110,7 +110,7 @@ form { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 16px
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -119,7 +119,7 @@ form { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 16px
 }
 
 .optional-tag {
-  font-size: 9px;
+  font-size: 11px;
   color: var(--steel-gray);
   font-weight: 400;
   text-transform: none;
@@ -131,7 +131,7 @@ form { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 16px
   margin-left: auto;
   padding: 2px 10px;
   border-radius: 3px;
-  font-size: 11px;
+  font-size: 14px;
   font-weight: 800;
   color: #000;
   letter-spacing: 0.04em;
@@ -194,7 +194,7 @@ form { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 16px
   border-radius: 3px;
   background: var(--graphite-800);
   border: 1px solid var(--border-soft);
-  font-size: 11px;
+  font-size: 14px;
   color: var(--steel-light);
   transition: all 0.3s;
 }
@@ -207,8 +207,8 @@ form { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 16px
   transition: background 0.3s;
 }
 
-.tier-indicator strong { color: var(--ocheret-cream); font-size: 11px; letter-spacing: 0.06em; }
-.tier-desc { color: var(--steel-gray); font-size: 10px; }
+.tier-indicator strong { color: var(--ocheret-cream); font-size: 14px; letter-spacing: 0.06em; }
+.tier-desc { color: var(--steel-gray); font-size: 12px; }
 
 /* Text inputs */
 .text-input {
@@ -216,7 +216,7 @@ form { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 16px
   border: 1px solid var(--border-soft);
   border-radius: 3px;
   color: var(--ocheret-cream);
-  font-size: 12px;
+  font-size: 15px;
   padding: 8px 12px;
   font-family: var(--mono);
   outline: none;
@@ -243,7 +243,7 @@ form { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 16px
   color: var(--steel-light);
   border-radius: 3px;
   padding: 3px 9px;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 600;
   font-family: var(--mono);
   cursor: pointer;
@@ -263,7 +263,7 @@ form { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 16px
   flex: 1;
   padding: 10px 14px;
   border-radius: 3px;
-  font-size: 11px;
+  font-size: 14px;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
