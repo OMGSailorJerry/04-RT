@@ -2,7 +2,7 @@ import { Component, inject, computed, ChangeDetectionStrategy } from '@angular/c
 import { DatePipe, UpperCasePipe } from '@angular/common';
 import { RadioNoiseService } from '../../services/radio-noise.service';
 import { UiStateService } from '../../services/ui-state.service';
-import { NoiseReading } from '../../models/noise-reading.model';
+import { NoiseReading, EnemyAsset } from '../../models/noise-reading.model';
 import { powerToK } from '../../utils/cell-generator';
 
 @Component({
@@ -22,6 +22,12 @@ export class FrequencyDetailComponent {
     return this.noiseService.readings().find(r => r.id === id) ?? null;
   });
 
+  readonly selectedEnemy = computed<EnemyAsset | null>(() => {
+    const id = this.uiState.selectedEnemyId();
+    if (!id) return null;
+    return this.noiseService.enemyAssets().find(a => a.id === id) ?? null;
+  });
+
   readonly isCellEdit = computed(() => !!this.uiState.cellEditId());
 
   tagClass(r: NoiseReading): string {
@@ -38,5 +44,10 @@ export class FrequencyDetailComponent {
 
   stopCellEdit(): void {
     this.uiState.stopCellEdit();
+  }
+
+  removeEnemy(a: EnemyAsset): void {
+    this.noiseService.removeEnemyAsset(a.id);
+    this.uiState.deselect();
   }
 }

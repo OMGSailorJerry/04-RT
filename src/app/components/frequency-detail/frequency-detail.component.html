@@ -2,7 +2,9 @@
 <div class="detail-host">
 
   <div class="detail-header">
-    <span class="detail-title">FREQUENCY DETAIL</span>
+    <span class="detail-title" [class.enemy-title]="selectedEnemy()">
+      {{ selectedEnemy() ? 'ENEMY ASSET' : 'FREQUENCY DETAIL' }}
+    </span>
   </div>
 
   @if (selected(); as r) {
@@ -71,6 +73,42 @@
       } @else {
         <button class="btn-cell-edit" (click)="startCellEdit(r)">⊞ EDIT CELLS</button>
       }
+    </div>
+
+  } @else if (selectedEnemy(); as a) {
+
+    <div class="detail-body">
+
+      <div class="detail-freq-row">
+        <div class="big-freq enemy-name">{{ a.ew_name }}</div>
+        <div class="enemy-badge">⊗</div>
+      </div>
+
+      @for (f of a.frequencies; track f.from) {
+        <div class="detail-row">
+          <span class="detail-label">FREQ</span>
+          <span class="detail-value">{{ f.from }}–{{ f.to }} MHz</span>
+        </div>
+      }
+
+      <div class="detail-row">
+        <span class="detail-label">H3</span>
+        <span class="detail-value detail-h3">{{ a.h3Index }}</span>
+      </div>
+
+      <div class="detail-row detail-ts">
+        <span class="detail-label">UPDATED</span>
+        <span class="detail-value">{{ a.timestamp | date:'dd.MM.yyyy HH:mm' }}</span>
+      </div>
+
+      <div class="detail-notes enemy-hint">
+        Shift+Click на маркері або кнопка нижче для видалення
+      </div>
+
+    </div>
+
+    <div class="detail-actions">
+      <button class="btn-remove-enemy" (click)="removeEnemy(a)">✕ REMOVE</button>
     </div>
 
   } @else {

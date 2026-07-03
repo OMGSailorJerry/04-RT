@@ -35,6 +35,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   constructor() {
     effect(() => { if (!this.mapReady()) return; this.syncHexagons(this.noiseService.readings()); });
     effect(() => { if (!this.mapReady()) return; this.syncEnemyAssets(this.noiseService.enemyAssets()); });
+    effect(() => { if (!this.mapReady()) return; this.updateEnemySelection(this.uiState.selectedEnemyId()); });
     effect(() => { if (!this.mapReady()) return; this.syncPendingMarker(this.uiState.mapPending()); });
     effect(() => { if (!this.mapReady()) return; this.syncPreview(this.uiState.previewCells()); });
     effect(() => {
@@ -130,6 +131,18 @@ export class MapComponent implements AfterViewInit, OnDestroy {
 
   // ── Enemy assets ─────────────────────────────────────
 
+  private updateEnemySelection(selectedId: string | null): void {
+    this.enemyMap.forEach((marker, id) => {
+      const sel = id === selectedId;
+      marker.setIcon(L.divIcon({
+        html: `<div class="enemy-marker${sel ? ' enemy-marker--selected' : ''}">×</div>`,
+        className: '',
+        iconSize: [28, 28],
+        iconAnchor: [14, 14]
+      }));
+    });
+  }
+
   private syncEnemyAssets(assets: EnemyAsset[]): void {
     const currentIds = new Set(assets.map(a => a.id));
     this.enemyMap.forEach((marker, id) => {
@@ -143,9 +156,10 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   }
 
   private createEnemyMarker(a: EnemyAsset): L.Marker {
+    const sel = this.uiState.selectedEnemyId() === a.id;
     const marker = L.marker([a.lat, a.lng], {
       icon: L.divIcon({
-        html: `<div class="enemy-marker">×</div>`,
+        html: `<div class="enemy-marker${sel ? ' enemy-marker--selected' : ''}">×</div>`,
         className: '',
         iconSize: [28, 28],
         iconAnchor: [14, 14]
@@ -156,7 +170,11 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     });
     marker.on('click', (e: L.LeafletMouseEvent) => {
       L.DomEvent.stopPropagation(e);
-      this.noiseService.removeEnemyAsset(a.id);
+      if (e.originalEvent.shiftKey) {
+        this.noiseService.removeEnemyAsset(a.id);
+      } else {
+        this.uiState.selectEnemy(a.id);
+      }
     });
     marker.addTo(this.map);
     return marker;
@@ -167,7 +185,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     const freqs = a.frequencies.map(f => `${f.from}–${f.to}`).join(', ');
     return `<b style="color:#f56b6b">${a.ew_name}</b><br>`
          + `<span style="color:#8A949D;font-size:11px">${freqs} MHz</span><br>`
-         + `<span style="color:#4a8aaa;font-size:10px">${ts} · click to remove</span>`;
+         + `<span style="color:#4a8aaa;font-size:10px">${ts} · shift+click to remove</span>`;
   }
 
   // ── Pending marker ───────────────────────────────────

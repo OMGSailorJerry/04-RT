@@ -101,6 +101,12 @@
   background: rgba(245,107,107,0.30);
   box-shadow: 0 0 16px rgba(245,107,107,0.55);
 }
+:host ::ng-deep .enemy-marker--selected {
+  background: rgba(245,107,107,0.28);
+  border-color: #ff8585;
+  box-shadow: 0 0 0 2px rgba(245,107,107,0.4), 0 0 18px rgba(245,107,107,0.6);
+  color: #ff8585;
+}
 
 /* ── Tooltip ───────────────────────────────────────── */
 :host ::ng-deep .noise-tooltip {

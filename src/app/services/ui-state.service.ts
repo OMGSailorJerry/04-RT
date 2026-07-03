@@ -2,16 +2,26 @@ import { Injectable, signal } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
 export class UiStateService {
-  readonly selectedId   = signal<string | null>(null);
-  readonly editingId    = signal<string | null>(null);
-  readonly mapPending   = signal<{ lat: number; lng: number } | null>(null);
-  readonly formMode     = signal<'add' | 'edit' | null>(null);
-  readonly previewCells = signal<string[]>([]);
-  readonly cellEditId   = signal<string | null>(null);
-  readonly enemyMode    = signal(false);
+  readonly selectedId      = signal<string | null>(null);
+  readonly selectedEnemyId = signal<string | null>(null);
+  readonly editingId       = signal<string | null>(null);
+  readonly mapPending      = signal<{ lat: number; lng: number } | null>(null);
+  readonly formMode        = signal<'add' | 'edit' | null>(null);
+  readonly previewCells    = signal<string[]>([]);
+  readonly cellEditId      = signal<string | null>(null);
+  readonly enemyMode       = signal(false);
 
   select(id: string): void {
     this.selectedId.set(id);
+    this.selectedEnemyId.set(null);
+    this.editingId.set(null);
+    this.formMode.set(null);
+    this.cellEditId.set(null);
+  }
+
+  selectEnemy(id: string): void {
+    this.selectedEnemyId.set(id);
+    this.selectedId.set(null);
     this.editingId.set(null);
     this.formMode.set(null);
     this.cellEditId.set(null);
@@ -69,6 +79,7 @@ export class UiStateService {
 
   deselect(): void {
     this.selectedId.set(null);
+    this.selectedEnemyId.set(null);
     this.editingId.set(null);
     this.formMode.set(null);
     this.mapPending.set(null);

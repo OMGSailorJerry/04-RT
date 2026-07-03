@@ -39,10 +39,42 @@
         <span class="empty-sub">Click map to add.</span>
       </div>
     }
+
+    @if (enemyAssets().length > 0) {
+      <div class="section-divider">
+        <span class="section-label">· ENEMY ASSETS</span>
+        <span class="count-badge enemy-count">{{ enemyAssets().length }}</span>
+      </div>
+
+      @for (a of enemyAssets(); track a.id) {
+        <div
+          class="list-item enemy-item"
+          [class.selected]="isEnemySelected(a)"
+          (click)="selectEnemy(a)"
+        >
+          <div class="item-main">
+            <span class="item-freq enemy-item-name">{{ a.ew_name }}</span>
+            <span class="item-band">{{ formatFreqs(a) }}</span>
+          </div>
+          <div class="item-meta">
+            <span class="item-ts">{{ a.timestamp | date:'HH:mm' }}</span>
+          </div>
+          <div class="menu-wrap">
+            <button class="btn-dots" (click)="toggleEnemyMenu(a, $event)" title="Options">⋮</button>
+            @if (menuOpenEnemyId() === a.id) {
+              <div class="dropdown">
+                <button class="drop-item drop-item--danger" (click)="deleteEnemy(a, $event)">Видалити</button>
+              </div>
+            }
+          </div>
+        </div>
+      }
+    }
   </div>
 
   <div class="list-footer">
     <button class="btn-add" (click)="addEmission()">+ ADD EMISSION</button>
+    <button class="btn-add-enemy" [class.active]="uiState.enemyMode()" (click)="uiState.toggleEnemyMode()">⊗ ENEMY</button>
   </div>
 
 </div>

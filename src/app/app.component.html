@@ -9,10 +9,6 @@
     </div>
     <div class="header-spacer"></div>
     <span class="header-time">{{ currentTime() }}</span>
-    <button class="btn-enemy-mode" [class.active]="uiState.enemyMode()" (click)="uiState.toggleEnemyMode()">
-      <span class="export-long">⊗ ENEMY</span>
-      <span class="export-short">⊗</span>
-    </button>
     <button class="btn-export" (click)="exportGeoJson()">
       <span class="export-long">↓ EXPORT JSON</span>
       <span class="export-short">↓ JSON</span>
