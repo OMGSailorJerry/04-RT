@@ -39,6 +39,26 @@ export class AppComponent {
     });
   }
 
+  importGeoJson(): void {
+    const input = document.createElement('input');
+    input.type   = 'file';
+    input.accept = '.json,application/json';
+    input.onchange = (e: Event) => {
+      const file = (e.target as HTMLInputElement).files?.[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        try {
+          const geojson = JSON.parse(ev.target?.result as string);
+          this.noiseService.importFromGeoJson(geojson);
+          this.uiState.deselect();
+        } catch (_) {}
+      };
+      reader.readAsText(file, 'utf-8');
+    };
+    input.click();
+  }
+
   exportGeoJson(): void {
     const readings = this.noiseService.getSnapshot();
     const enemies  = this.noiseService.getEnemySnapshot();
@@ -109,30 +129,4 @@ export class AppComponent {
     URL.revokeObjectURL(url);
   }
 
-  exportCsv(): void {
-    const readings = this.noiseService.getSnapshot();
-    if (!readings.length) return;
-
-    const header = 'Frequency (MHz),Band,Noise Level,Notes,Lat,Lng,Timestamp';
-    const rows = readings.map((r: NoiseReading) =>
-      [
-        r.frequency,
-        r.band,
-        r.noiseLevel,
-        `"${(r.notes ?? '').replace(/"/g, '""')}"`,
-        r.lat.toFixed(5),
-        r.lng.toFixed(5),
-        r.timestamp.toISOString()
-      ].join(',')
-    );
-
-    const csv  = [header, ...rows].join('\n');
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-    const url  = URL.createObjectURL(blob);
-    const a    = document.createElement('a');
-    a.href     = url;
-    a.download = `radio-noise-${new Date().toISOString().slice(0, 10)}.csv`;
-    a.click();
-    URL.revokeObjectURL(url);
-  }
 }

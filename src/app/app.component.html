@@ -9,13 +9,13 @@
     </div>
     <div class="header-spacer"></div>
     <span class="header-time">{{ currentTime() }}</span>
+    <button class="btn-export btn-import" (click)="importGeoJson()">
+      <span class="export-long">↑ IMPORT JSON</span>
+      <span class="export-short">↑ JSON</span>
+    </button>
     <button class="btn-export" (click)="exportGeoJson()">
       <span class="export-long">↓ EXPORT JSON</span>
       <span class="export-short">↓ JSON</span>
-    </button>
-    <button class="btn-export" (click)="exportCsv()">
-      <span class="export-long">↓ EXPORT CSV</span>
-      <span class="export-short">↓ CSV</span>
     </button>
   </header>
 
