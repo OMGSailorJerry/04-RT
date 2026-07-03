@@ -83,7 +83,16 @@ export class AppComponent {
           name: r.id,
           zone_id: r.id,
           h3Index: r.cells[0] ?? '',
-          fill: 'blue'
+          fill: 'blue',
+          // round-trip fields (ignored by Ocheret)
+          _frequency:    r.frequency,
+          _power:        r.power,
+          _noiseLevel:   r.noiseLevel,
+          _emissionType: r.emissionType,
+          _cells:        r.cells,
+          ...(r.azimuth   != null ? { _azimuth:   r.azimuth   } : {}),
+          ...(r.beamAngle != null ? { _beamAngle: r.beamAngle } : {}),
+          ...(r.notes               ? { _notes:     r.notes     } : {})
         },
         geometry: { type: 'Polygon', coordinates: [box] }
       };

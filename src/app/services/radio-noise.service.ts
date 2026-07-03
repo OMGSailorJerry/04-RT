@@ -151,21 +151,26 @@ export class RadioNoiseService {
     for (const f of features) {
       const props = f?.properties ?? {};
       if (props.affiliation === 'friendly') {
-        const freqRange  = props.frequencies?.[0];
-        const frequency  = freqRange ? Math.round((freqRange.from + freqRange.to) / 2) : 900;
-        const h3Index    = props.h3Index ?? '';
-        const [lat, lng] = h3Index ? cellToLatLng(h3Index) : [0, 0];
-        const power      = 50;
-        const noiseLevel = powerToNoiseLevel(power);
+        const freqRange    = props.frequencies?.[0];
+        const frequency    = props._frequency   ?? (freqRange ? Math.round((freqRange.from + freqRange.to) / 2) : 900);
+        const power        = props._power       ?? 50;
+        const noiseLevel   = props._noiseLevel  ?? powerToNoiseLevel(power);
+        const emissionType = props._emissionType ?? 'radial';
+        const h3Index      = props.h3Index ?? '';
+        const cells        = props._cells?.length ? props._cells : (h3Index ? [h3Index] : []);
+        const [lat, lng]   = h3Index ? cellToLatLng(h3Index) : [0, 0];
         readings.push({
           id:           props.zone_id ?? crypto.randomUUID(),
           lat, lng,
-          cells:        h3Index ? [h3Index] : [],
-          emissionType: 'radial',
+          cells,
+          emissionType,
           frequency,
           noiseLevel,
           band:         getBand(frequency),
           power,
+          azimuth:      props._azimuth,
+          beamAngle:    props._beamAngle,
+          notes:        props._notes,
           timestamp:    new Date(props.updated_at ?? Date.now()),
           color:        getNoiseColor(noiseLevel)
         });
