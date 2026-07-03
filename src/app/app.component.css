@@ -205,6 +205,30 @@
   display: none;
 }
 
+/* ── Enemy mode button ─────────────────────────────── */
+.btn-enemy-mode {
+  background: transparent;
+  border: 1px solid rgba(245,107,107,0.38);
+  color: #f56b6b;
+  border-radius: 3px;
+  padding: 5px 12px;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: background 0.2s, border-color 0.2s, box-shadow 0.2s;
+  white-space: nowrap;
+}
+
+.btn-enemy-mode:hover,
+.btn-enemy-mode.active {
+  background: rgba(245,107,107,0.12);
+  border-color: #f56b6b;
+  box-shadow: 0 0 8px rgba(245,107,107,0.3);
+}
+
 /* ── Export button label variants ─────────────────── */
 .export-short { display: none; }
 

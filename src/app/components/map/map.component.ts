@@ -7,7 +7,7 @@ import { cellsToMultiPolygon, latLngToCell } from 'h3-js';
 
 import { RadioNoiseService } from '../../services/radio-noise.service';
 import { UiStateService } from '../../services/ui-state.service';
-import { NoiseReading } from '../../models/noise-reading.model';
+import { NoiseReading, EnemyAsset } from '../../models/noise-reading.model';
 import { H3_RES } from '../../utils/cell-generator';
 
 interface HexMeta { color: string; cellsSig: string; }
@@ -26,6 +26,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   private map!: L.Map;
   private hexMap          = new Map<string, L.LayerGroup>();
   private hexMeta         = new Map<string, HexMeta>();
+  private enemyMap        = new Map<string, L.Marker>();
   private pendingMarker:  L.Marker      | null = null;
   private previewGroup:   L.LayerGroup  | null = null;
   private hoverGroup:     L.LayerGroup  | null = null;
@@ -33,9 +34,16 @@ export class MapComponent implements AfterViewInit, OnDestroy {
 
   constructor() {
     effect(() => { if (!this.mapReady()) return; this.syncHexagons(this.noiseService.readings()); });
+    effect(() => { if (!this.mapReady()) return; this.syncEnemyAssets(this.noiseService.enemyAssets()); });
     effect(() => { if (!this.mapReady()) return; this.syncPendingMarker(this.uiState.mapPending()); });
     effect(() => { if (!this.mapReady()) return; this.syncPreview(this.uiState.previewCells()); });
-    effect(() => { if (!this.mapReady()) return; this.onCellEditChanged(this.uiState.cellEditId()); });
+    effect(() => {
+      if (!this.mapReady()) return;
+      const editId    = this.uiState.cellEditId();
+      const enemyMode = this.uiState.enemyMode();
+      this.map.getContainer().style.cursor = (editId || enemyMode) ? 'crosshair' : '';
+      if (!editId) this.clearHoverCell();
+    });
   }
 
   ngAfterViewInit(): void { this.initMap(); this.mapReady.set(true); }
@@ -54,6 +62,10 @@ export class MapComponent implements AfterViewInit, OnDestroy {
       const editId = this.uiState.cellEditId();
       if (editId) {
         this.toggleCell(editId, e.latlng.lat, e.latlng.lng);
+        return;
+      }
+      if (this.uiState.enemyMode()) {
+        this.noiseService.addEnemyAsset(e.latlng.lat, e.latlng.lng);
         return;
       }
       if (this.uiState.formMode() === 'add') {
@@ -76,12 +88,6 @@ export class MapComponent implements AfterViewInit, OnDestroy {
 
   // ── Cell edit mode ───────────────────────────────────
 
-  private onCellEditChanged(id: string | null): void {
-    const container = this.map.getContainer();
-    container.style.cursor = id ? 'crosshair' : '';
-    if (!id) this.clearHoverCell();
-  }
-
   private toggleCell(editId: string, lat: number, lng: number): void {
     const cell    = latLngToCell(lat, lng, H3_RES);
     const reading = this.noiseService.readings().find(r => r.id === editId);
@@ -90,7 +96,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     const newCells = has
       ? reading.cells.filter(c => c !== cell)
       : [...reading.cells, cell];
-    if (newCells.length === 0) return; // keep at least one cell
+    if (newCells.length === 0) return;
     this.noiseService.updateCells(editId, newCells);
   }
 
@@ -120,6 +126,48 @@ export class MapComponent implements AfterViewInit, OnDestroy {
 
   private clearHoverCell(): void {
     if (this.hoverGroup) { this.hoverGroup.remove(); this.hoverGroup = null; }
+  }
+
+  // ── Enemy assets ─────────────────────────────────────
+
+  private syncEnemyAssets(assets: EnemyAsset[]): void {
+    const currentIds = new Set(assets.map(a => a.id));
+    this.enemyMap.forEach((marker, id) => {
+      if (!currentIds.has(id)) { marker.remove(); this.enemyMap.delete(id); }
+    });
+    for (const a of assets) {
+      if (!this.enemyMap.has(a.id)) {
+        this.enemyMap.set(a.id, this.createEnemyMarker(a));
+      }
+    }
+  }
+
+  private createEnemyMarker(a: EnemyAsset): L.Marker {
+    const marker = L.marker([a.lat, a.lng], {
+      icon: L.divIcon({
+        html: `<div class="enemy-marker">×</div>`,
+        className: '',
+        iconSize: [28, 28],
+        iconAnchor: [14, 14]
+      })
+    });
+    marker.bindTooltip(this.buildEnemyTooltip(a), {
+      permanent: false, className: 'noise-tooltip', direction: 'top'
+    });
+    marker.on('click', (e: L.LeafletMouseEvent) => {
+      L.DomEvent.stopPropagation(e);
+      this.noiseService.removeEnemyAsset(a.id);
+    });
+    marker.addTo(this.map);
+    return marker;
+  }
+
+  private buildEnemyTooltip(a: EnemyAsset): string {
+    const ts    = a.timestamp.toLocaleTimeString('uk-UA', { hour: '2-digit', minute: '2-digit' });
+    const freqs = a.frequencies.map(f => `${f.from}–${f.to}`).join(', ');
+    return `<b style="color:#f56b6b">${a.ew_name}</b><br>`
+         + `<span style="color:#8A949D;font-size:11px">${freqs} MHz</span><br>`
+         + `<span style="color:#4a8aaa;font-size:10px">${ts} · click to remove</span>`;
   }
 
   // ── Pending marker ───────────────────────────────────

@@ -84,6 +84,24 @@
   transition: opacity 0.08s;
 }
 
+/* ── Enemy marker ──────────────────────────────────── */
+:host ::ng-deep .enemy-marker {
+  width: 28px; height: 28px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; font-weight: 900; line-height: 1;
+  color: #f56b6b;
+  background: rgba(245,107,107,0.15);
+  border: 2px solid #f56b6b;
+  border-radius: 3px;
+  box-shadow: 0 0 10px rgba(245,107,107,0.4);
+  cursor: pointer;
+  transition: background 0.15s, box-shadow 0.15s;
+}
+:host ::ng-deep .enemy-marker:hover {
+  background: rgba(245,107,107,0.30);
+  box-shadow: 0 0 16px rgba(245,107,107,0.55);
+}
+
 /* ── Tooltip ───────────────────────────────────────── */
 :host ::ng-deep .noise-tooltip {
   background: rgba(17,19,21,0.97) !important;

@@ -8,6 +8,7 @@ export class UiStateService {
   readonly formMode     = signal<'add' | 'edit' | null>(null);
   readonly previewCells = signal<string[]>([]);
   readonly cellEditId   = signal<string | null>(null);
+  readonly enemyMode    = signal(false);
 
   select(id: string): void {
     this.selectedId.set(id);
@@ -17,13 +18,26 @@ export class UiStateService {
   }
 
   startEdit(id: string): void {
+    this.enemyMode.set(false);
     this.selectedId.set(id);
     this.editingId.set(id);
     this.formMode.set('edit');
     this.cellEditId.set(null);
   }
 
+  toggleEnemyMode(): void {
+    const next = !this.enemyMode();
+    this.enemyMode.set(next);
+    if (next) {
+      this.formMode.set(null);
+      this.cellEditId.set(null);
+      this.mapPending.set(null);
+      this.previewCells.set([]);
+    }
+  }
+
   startAdd(): void {
+    this.enemyMode.set(false);
     this.selectedId.set(null);
     this.editingId.set(null);
     this.mapPending.set(null);
@@ -40,6 +54,7 @@ export class UiStateService {
   }
 
   startCellEdit(id: string): void {
+    this.enemyMode.set(false);
     this.selectedId.set(id);
     this.editingId.set(null);
     this.formMode.set(null);

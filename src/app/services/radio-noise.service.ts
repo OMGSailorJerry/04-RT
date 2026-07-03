@@ -1,7 +1,10 @@
 import { Injectable, signal } from '@angular/core';
-import { NoiseReading, NoiseLevel, EmissionType, getBand, getNoiseColor } from '../models/noise-reading.model';
+import { NoiseReading, NoiseLevel, EmissionType, getBand, getNoiseColor, EnemyAsset, EW_NAMES, randomEwFreqs } from '../models/noise-reading.model';
+import { latLngToCell } from 'h3-js';
+import { H3_RES } from '../utils/cell-generator';
 
-const STORAGE_KEY = 'rnm_v5';
+const STORAGE_KEY       = 'rnm_v5';
+const ENEMY_STORAGE_KEY = 'rnm_enemy_v1';
 
 export interface AddReadingOpts {
   lat: number;
@@ -29,12 +32,14 @@ export interface UpdateReadingOpts {
 
 @Injectable({ providedIn: 'root' })
 export class RadioNoiseService {
-  private _readings = signal<NoiseReading[]>(this.loadFromStorage());
-  readonly readings = this._readings.asReadonly();
+  private _readings    = signal<NoiseReading[]>(this.loadFromStorage());
+  private _enemyAssets = signal<EnemyAsset[]>(this.loadEnemyFromStorage());
 
-  getSnapshot(): NoiseReading[] {
-    return this._readings();
-  }
+  readonly readings    = this._readings.asReadonly();
+  readonly enemyAssets = this._enemyAssets.asReadonly();
+
+  getSnapshot(): NoiseReading[] { return this._readings(); }
+  getEnemySnapshot(): EnemyAsset[] { return this._enemyAssets(); }
 
   addReading(opts: AddReadingOpts): NoiseReading {
     const reading: NoiseReading = {
@@ -107,10 +112,39 @@ export class RadioNoiseService {
     localStorage.removeItem(STORAGE_KEY);
   }
 
+  addEnemyAsset(lat: number, lng: number): EnemyAsset {
+    const asset: EnemyAsset = {
+      id: crypto.randomUUID(),
+      lat,
+      lng,
+      h3Index: latLngToCell(lat, lng, H3_RES),
+      frequencies: randomEwFreqs(),
+      timestamp: new Date(),
+      ew_name: EW_NAMES[Math.floor(Math.random() * EW_NAMES.length)]
+    };
+    this._enemyAssets.update(list => {
+      const updated = [...list, asset];
+      this.saveEnemyToStorage(updated);
+      return updated;
+    });
+    return asset;
+  }
+
+  removeEnemyAsset(id: string): void {
+    this._enemyAssets.update(list => {
+      const updated = list.filter(a => a.id !== id);
+      this.saveEnemyToStorage(updated);
+      return updated;
+    });
+  }
+
+  clearAllEnemy(): void {
+    this._enemyAssets.set([]);
+    localStorage.removeItem(ENEMY_STORAGE_KEY);
+  }
+
   private saveToStorage(readings: NoiseReading[]): void {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(readings));
-    } catch (_) {}
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(readings)); } catch (_) {}
   }
 
   private loadFromStorage(): NoiseReading[] {
@@ -119,8 +153,19 @@ export class RadioNoiseService {
       if (!raw) return [];
       const parsed = JSON.parse(raw) as NoiseReading[];
       return parsed.map(r => ({ ...r, timestamp: new Date(r.timestamp) }));
-    } catch (_) {
-      return [];
-    }
+    } catch (_) { return []; }
+  }
+
+  private saveEnemyToStorage(assets: EnemyAsset[]): void {
+    try { localStorage.setItem(ENEMY_STORAGE_KEY, JSON.stringify(assets)); } catch (_) {}
+  }
+
+  private loadEnemyFromStorage(): EnemyAsset[] {
+    try {
+      const raw = localStorage.getItem(ENEMY_STORAGE_KEY);
+      if (!raw) return [];
+      const parsed = JSON.parse(raw) as EnemyAsset[];
+      return parsed.map(a => ({ ...a, timestamp: new Date(a.timestamp) }));
+    } catch (_) { return []; }
   }
 }
