@@ -6,6 +6,7 @@ import { FrequencyDetailComponent } from './components/frequency-detail/frequenc
 import { RadioNoiseService } from './services/radio-noise.service';
 import { UiStateService } from './services/ui-state.service';
 import { NoiseReading, EnemyAsset } from './models/noise-reading.model';
+import { cellsToMultiPolygon } from 'h3-js';
 
 @Component({
   selector: 'app-root',
@@ -65,14 +66,10 @@ export class AppComponent {
     if (!readings.length && !enemies.length) return;
 
     const friendlyFeatures = readings.map((r: NoiseReading) => {
-      const d = 0.005;
-      const box = [
-        [r.lng - d, r.lat - d],
-        [r.lng + d, r.lat - d],
-        [r.lng + d, r.lat + d],
-        [r.lng - d, r.lat + d],
-        [r.lng - d, r.lat - d]
-      ];
+      const polys    = cellsToMultiPolygon(r.cells, true);
+      const geometry = polys.length === 1
+        ? { type: 'Polygon',      coordinates: polys[0] }
+        : { type: 'MultiPolygon', coordinates: polys };
       return {
         type: 'Feature',
         properties: {
@@ -94,7 +91,7 @@ export class AppComponent {
           ...(r.beamAngle != null ? { _beamAngle: r.beamAngle } : {}),
           ...(r.notes               ? { _notes:     r.notes     } : {})
         },
-        geometry: { type: 'Polygon', coordinates: [box] }
+        geometry
       };
     });
 
