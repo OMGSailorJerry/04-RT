@@ -81,7 +81,7 @@ export class AppComponent {
           zone_id: r.id,
           h3Index: r.cells[0] ?? '',
           fill: 'blue',
-          // round-trip fields (ignored by Ocheret)
+          // round-trip fields (preserved for re-import)
           _frequency:    r.frequency,
           _bandwidth:    r.bandwidth,
           _power:        r.power,

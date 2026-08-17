@@ -35,7 +35,7 @@
   left: 0;
   right: 0;
   height: 1px;
-  background: linear-gradient(90deg, var(--ocheret-orange) 0%, transparent 60%);
+  background: linear-gradient(90deg, var(--ui-orange) 0%, transparent 60%);
   opacity: 0.5;
 }
 
@@ -52,18 +52,18 @@
   flex-shrink: 0;
 }
 
-.header-ocheret {
+.header-brand-name {
   font-family: var(--mono);
   font-size: 16px;
   font-weight: 900;
   letter-spacing: 0.22em;
-  color: var(--ocheret-orange);
+  color: var(--ui-orange);
   text-transform: uppercase;
 }
 
 .header-arr {
   font-size: 15px;
-  color: var(--ocheret-orange-dark);
+  color: var(--ui-orange-dark);
 }
 
 .header-title {
@@ -71,7 +71,7 @@
   font-size: 14px;
   font-weight: 700;
   letter-spacing: 0.18em;
-  color: var(--ocheret-cream);
+  color: var(--ui-cream);
   text-transform: uppercase;
 }
 
@@ -127,7 +127,7 @@
   font-size: 14px;
   font-weight: 700;
   letter-spacing: 0.1em;
-  color: var(--ocheret-cream);
+  color: var(--ui-cream);
   white-space: nowrap;
   min-width: 72px;
   text-align: right;
@@ -136,7 +136,7 @@
 .btn-export {
   background: transparent;
   border: 1px solid var(--border-orange);
-  color: var(--ocheret-orange-soft);
+  color: var(--ui-orange-soft);
   border-radius: 3px;
   padding: 5px 12px;
   font-family: var(--mono);
@@ -151,7 +151,7 @@
 
 .btn-export:hover {
   background: var(--panel-glow);
-  border-color: var(--ocheret-orange);
+  border-color: var(--ui-orange);
   box-shadow: 0 0 8px var(--panel-glow);
 }
 
@@ -162,7 +162,7 @@
 
 .btn-import:hover {
   border-color: var(--border-medium);
-  color: var(--ocheret-cream);
+  color: var(--ui-cream);
   box-shadow: none;
 }
 

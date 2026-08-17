@@ -1,10 +1,10 @@
 @import 'leaflet/dist/leaflet.css';
 
-/* ─── OCHERET Palette ──────────────────────────────── */
+/* ─── UI Palette ──────────────────────────────── */
 :root {
-  --ocheret-orange:      #F05A28;
-  --ocheret-orange-soft: #FF7A45;
-  --ocheret-orange-dark: #B93D16;
+  --ui-orange:      #F05A28;
+  --ui-orange-soft: #FF7A45;
+  --ui-orange-dark: #B93D16;
 
   --graphite-950: #0B0C0D;
   --graphite-900: #111315;
@@ -12,7 +12,7 @@
   --graphite-800: #1D2125;
   --graphite-750: #23282D;
 
-  --ocheret-cream: #E8DDB5;
+  --ui-cream: #E8DDB5;
   --steel-gray:   #5F6870;
   --steel-light:  #8A949D;
 
@@ -35,7 +35,7 @@
   --bg-panel2: var(--graphite-850);
   --border:    var(--border-soft);
   --border2:   var(--border-medium);
-  --text-1:    var(--ocheret-cream);
+  --text-1:    var(--ui-cream);
   --text-2:    var(--steel-light);
   --text-3:    var(--steel-gray);
   --low:       var(--noise-low);
@@ -56,7 +56,7 @@ html, body {
   height: 100%;
   overflow: hidden;
   background: var(--graphite-950);
-  color: var(--ocheret-cream);
+  color: var(--ui-cream);
   font-family: var(--mono);
   letter-spacing: 0.04em;
 }
@@ -67,7 +67,7 @@ html, body {
 ::-webkit-scrollbar-thumb { background: var(--steel-gray); border-radius: 2px; }
 
 /* ─── Selection ───────────────────────────────────── */
-::selection { background: rgba(240,90,40,0.28); color: var(--ocheret-cream); }
+::selection { background: rgba(240,90,40,0.28); color: var(--ui-cream); }
 
 /* ─── Noise level badges ──────────────────────────── */
 .tag-low {
@@ -141,7 +141,7 @@ button {
 input, select, textarea {
   font-family: var(--mono);
   background: var(--graphite-800);
-  color: var(--ocheret-cream);
+  color: var(--ui-cream);
   border: 1px solid var(--border-soft);
   border-radius: 3px;
   padding: 6px 8px;
@@ -152,11 +152,11 @@ input, select, textarea {
 }
 
 input:focus, select:focus, textarea:focus {
-  border-color: var(--ocheret-orange);
+  border-color: var(--ui-orange);
   box-shadow: 0 0 0 2px rgba(240,90,40,0.12);
 }
 
 select option {
   background: var(--graphite-850);
-  color: var(--ocheret-cream);
+  color: var(--ui-cream);
 }

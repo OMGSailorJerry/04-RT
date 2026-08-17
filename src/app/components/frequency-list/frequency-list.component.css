@@ -26,7 +26,7 @@
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.14em;
-  color: var(--ocheret-orange);
+  color: var(--ui-orange);
   text-transform: uppercase;
 }
 
@@ -65,7 +65,7 @@
 
 .list-item.selected {
   background: rgba(240,90,40,0.07);
-  border-left-color: var(--ocheret-orange);
+  border-left-color: var(--ui-orange);
   box-shadow: inset 2px 0 8px rgba(240,90,40,0.06);
 }
 
@@ -81,13 +81,13 @@
   font-family: var(--mono);
   font-size: 15px;
   font-weight: 700;
-  color: var(--ocheret-cream);
+  color: var(--ui-cream);
   letter-spacing: 0.04em;
   white-space: nowrap;
 }
 
 .list-item.selected .item-freq {
-  color: var(--ocheret-orange-soft);
+  color: var(--ui-orange-soft);
 }
 
 .item-band {
@@ -172,7 +172,7 @@
 }
 
 .btn-dots:hover {
-  color: var(--ocheret-orange-soft);
+  color: var(--ui-orange-soft);
 }
 
 .dropdown {
@@ -198,7 +198,7 @@
   font-family: var(--mono);
   font-size: 14px;
   font-weight: 600;
-  color: var(--ocheret-cream);
+  color: var(--ui-cream);
   cursor: pointer;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -250,7 +250,7 @@
   flex: 1;
   background: transparent;
   border: 1px solid var(--border-orange);
-  color: var(--ocheret-orange-soft);
+  color: var(--ui-orange-soft);
   border-radius: 3px;
   padding: 7px 10px;
   font-family: var(--mono);

@@ -1,7 +1,7 @@
 # 04-RT · Radio Noise Map
 
 Інтерактивна карта моніторингу радіоелектронної обстановки.
-Генератор mock-даних для Ocheret у форматі `mock_zones.json`.
+Генератор mock-даних у форматі `mock_zones.json`.
 
 **Live:** https://radio-noise-map.vercel.app
 
@@ -48,7 +48,7 @@ npm run build    # production build
 
 | Кнопка | Формат | Файл |
 |---|---|---|
-| ↓ EXPORT JSON | GeoJSON FeatureCollection (Ocheret) | `mock_zones.json` |
+| ↓ EXPORT JSON | GeoJSON FeatureCollection | `mock_zones.json` |
 | ↓ EXPORT CSV | CSV з усіма friendly-записами | `radio-noise-YYYY-MM-DD.csv` |
 
 **Friendly feature** в JSON:
