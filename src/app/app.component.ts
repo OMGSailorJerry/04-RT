@@ -74,7 +74,7 @@ export class AppComponent {
         type: 'Feature',
         properties: {
           affiliation: 'friendly',
-          frequencies: [{ from: r.frequency - 50, to: r.frequency + 50 }],
+          frequencies: [{ from: r.frequency - r.bandwidth / 2, to: r.frequency + r.bandwidth / 2 }],
           type: 'ecm_active',
           updated_at: r.timestamp.toISOString(),
           name: r.id,
@@ -83,6 +83,7 @@ export class AppComponent {
           fill: 'blue',
           // round-trip fields (ignored by Ocheret)
           _frequency:    r.frequency,
+          _bandwidth:    r.bandwidth,
           _power:        r.power,
           _noiseLevel:   r.noiseLevel,
           _emissionType: r.emissionType,

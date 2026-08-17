@@ -35,6 +35,7 @@ export class EmissionFormComponent {
 
   readonly emissionType = signal<EmissionType>('radial');
   readonly power        = signal<number>(30);
+  readonly bandwidth    = signal<number>(50);
   readonly azimuth      = signal<number>(180);
   readonly beamAngle    = signal<number>(60);
 
@@ -60,6 +61,7 @@ export class EmissionFormComponent {
         this.form.patchValue({ frequency: editing.frequency, notes: editing.notes ?? '' });
         this.emissionType.set(editing.emissionType);
         this.power.set(editing.power);
+        this.bandwidth.set(editing.bandwidth ?? 50);
         if (editing.azimuth   !== undefined) this.azimuth.set(editing.azimuth);
         if (editing.beamAngle !== undefined) this.beamAngle.set(editing.beamAngle);
       } else if (mode === 'add') {
@@ -67,6 +69,7 @@ export class EmissionFormComponent {
         this.selectedPreset.set(null);
         this.emissionType.set('radial');
         this.power.set(30);
+        this.bandwidth.set(50);
         this.azimuth.set(180);
         this.beamAngle.set(60);
       }
@@ -94,11 +97,12 @@ export class EmissionFormComponent {
     return this.uiState.formMode() === 'edit' ? 'EDIT EMISSION' : 'ADD EMISSION';
   }
 
-  setType(type: EmissionType): void { this.emissionType.set(type); }
-  setPreset(freq: number): void     { this.selectedPreset.set(freq); this.form.patchValue({ frequency: freq }); }
-  setPower(e: Event): void          { this.power.set(+(e.target as HTMLInputElement).value); }
-  setAzimuth(e: Event): void        { this.azimuth.set(+(e.target as HTMLInputElement).value); }
-  setBeamAngle(e: Event): void      { this.beamAngle.set(+(e.target as HTMLInputElement).value); }
+  setType(type: EmissionType): void  { this.emissionType.set(type); }
+  setPreset(freq: number): void      { this.selectedPreset.set(freq); this.form.patchValue({ frequency: freq }); }
+  setPower(e: Event): void           { this.power.set(+(e.target as HTMLInputElement).value); }
+  setBandwidth(e: Event): void       { this.bandwidth.set(+(e.target as HTMLInputElement).value); }
+  setAzimuth(e: Event): void         { this.azimuth.set(+(e.target as HTMLInputElement).value); }
+  setBeamAngle(e: Event): void       { this.beamAngle.set(+(e.target as HTMLInputElement).value); }
 
   confirm(): void {
     if (this.form.invalid) return;
@@ -116,6 +120,7 @@ export class EmissionFormComponent {
           cells:        generateCells(editing.lat, editing.lng, type, this.power(), this.azimuth(), this.beamAngle()),
           emissionType: type,
           frequency:    frequency!,
+          bandwidth:    this.bandwidth(),
           noiseLevel:   level,
           power:        this.power(),
           azimuth:      isSector ? this.azimuth()    : undefined,
@@ -132,6 +137,7 @@ export class EmissionFormComponent {
           cells:        generateCells(pending.lat, pending.lng, type, this.power(), this.azimuth(), this.beamAngle()),
           emissionType: type,
           frequency:    frequency!,
+          bandwidth:    this.bandwidth(),
           noiseLevel:   level,
           power:        this.power(),
           azimuth:      isSector ? this.azimuth()   : undefined,

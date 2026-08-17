@@ -39,6 +39,7 @@ export interface NoiseReading {
   cells: string[];
   emissionType: EmissionType;
   frequency: number;
+  bandwidth: number;     // MHz total width → export: [freq−bw/2, freq+bw/2]
   noiseLevel: NoiseLevel;
   band: Band;
   power: number;        // 1–100 abstract power units

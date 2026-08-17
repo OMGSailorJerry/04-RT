@@ -3,7 +3,7 @@ import { NoiseReading, NoiseLevel, EmissionType, getBand, getNoiseColor, EnemyAs
 import { latLngToCell, cellToLatLng } from 'h3-js';
 import { H3_RES, powerToNoiseLevel } from '../utils/cell-generator';
 
-const STORAGE_KEY       = 'rnm_v5';
+const STORAGE_KEY       = 'rnm_v6';
 const ENEMY_STORAGE_KEY = 'rnm_enemy_v1';
 
 export interface AddReadingOpts {
@@ -12,6 +12,7 @@ export interface AddReadingOpts {
   cells: string[];
   emissionType: EmissionType;
   frequency: number;
+  bandwidth: number;
   noiseLevel: NoiseLevel;
   power: number;
   azimuth?: number;
@@ -23,6 +24,7 @@ export interface UpdateReadingOpts {
   cells: string[];
   emissionType: EmissionType;
   frequency: number;
+  bandwidth: number;
   noiseLevel: NoiseLevel;
   power: number;
   azimuth?: number;
@@ -49,6 +51,7 @@ export class RadioNoiseService {
       cells: opts.cells,
       emissionType: opts.emissionType,
       frequency: opts.frequency,
+      bandwidth: opts.bandwidth,
       noiseLevel: opts.noiseLevel,
       band: getBand(opts.frequency),
       power: opts.power,
@@ -75,6 +78,7 @@ export class RadioNoiseService {
               cells: opts.cells,
               emissionType: opts.emissionType,
               frequency: opts.frequency,
+              bandwidth: opts.bandwidth,
               noiseLevel: opts.noiseLevel,
               band: getBand(opts.frequency),
               power: opts.power,
@@ -153,6 +157,7 @@ export class RadioNoiseService {
       if (props.affiliation === 'friendly') {
         const freqRange    = props.frequencies?.[0];
         const frequency    = props._frequency   ?? (freqRange ? Math.round((freqRange.from + freqRange.to) / 2) : 900);
+        const bandwidth    = props._bandwidth   ?? (freqRange ? Math.round(freqRange.to - freqRange.from) : 50);
         const power        = props._power       ?? 50;
         const noiseLevel   = props._noiseLevel  ?? powerToNoiseLevel(power);
         const emissionType = props._emissionType ?? 'radial';
@@ -165,6 +170,7 @@ export class RadioNoiseService {
           cells,
           emissionType,
           frequency,
+          bandwidth,
           noiseLevel,
           band:         getBand(frequency),
           power,
@@ -203,7 +209,7 @@ export class RadioNoiseService {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (!raw) return [];
       const parsed = JSON.parse(raw) as NoiseReading[];
-      return parsed.map(r => ({ ...r, timestamp: new Date(r.timestamp) }));
+      return parsed.map(r => ({ ...r, bandwidth: r.bandwidth ?? 50, timestamp: new Date(r.timestamp) }));
     } catch (_) { return []; }
   }
 
