@@ -30,7 +30,8 @@ export class EmissionFormComponent {
     return this.noiseService.readings().find(r => r.id === id) ?? null;
   });
 
-  readonly presets = [433, 700, 868, 900, 1200, 1227, 1575, 2400, 3100, 3300, 5800, 8500];
+  readonly presets   = [433, 700, 868, 900, 1200, 1227, 1575, 2400, 3100, 3300, 5800, 8500];
+  readonly bwPresets = [5, 10, 25, 50, 100, 200, 500];
   readonly selectedPreset = signal<number | null>(null);
 
   readonly emissionType = signal<EmissionType>('radial');
@@ -101,6 +102,7 @@ export class EmissionFormComponent {
   setPreset(freq: number): void      { this.selectedPreset.set(freq); this.form.patchValue({ frequency: freq }); }
   setPower(e: Event): void           { this.power.set(+(e.target as HTMLInputElement).value); }
   setBandwidth(e: Event): void       { this.bandwidth.set(+(e.target as HTMLInputElement).value); }
+  setBwPreset(bw: number): void      { this.bandwidth.set(bw); }
   setAzimuth(e: Event): void         { this.azimuth.set(+(e.target as HTMLInputElement).value); }
   setBeamAngle(e: Event): void       { this.beamAngle.set(+(e.target as HTMLInputElement).value); }
 

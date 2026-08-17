@@ -66,6 +66,16 @@
           </div>
         </div>
       </div>
+      <div class="form-field">
+        <div class="preset-grid">
+          @for (bw of bwPresets; track bw) {
+            <button type="button" class="preset-pill"
+              [class.active]="bandwidth() === bw"
+              [attr.disabled]="!isActive() ? true : null"
+              (click)="setBwPreset(bw)">{{ bw }}</button>
+          }
+        </div>
+      </div>
 
       <!-- Presets -->
       <div class="form-field">
