@@ -52,14 +52,19 @@
       </div>
 
       <!-- Bandwidth -->
-      <div class="form-field">
-        <div class="field-label-row">
-          <span class="field-label">BANDWIDTH</span>
-          <span class="field-val-badge">{{ bandwidth() }} MHz &nbsp;·&nbsp; ±{{ bandwidth() / 2 }} MHz</span>
+      <div class="form-row">
+        <div class="form-field">
+          <label class="field-label">BW (MHz)</label>
+          <input type="number" min="1" max="500" step="1"
+            [value]="bandwidth()" (input)="setBandwidth($event)"
+            [attr.disabled]="!isActive() ? true : null" />
         </div>
-        <input type="range" class="range-input" min="1" max="500" step="1"
-          [value]="bandwidth()" (input)="setBandwidth($event)"
-          [attr.disabled]="!isActive() ? true : null" />
+        <div class="form-field">
+          <label class="field-label">RANGE</label>
+          <div class="band-display" style="font-size:11px;letter-spacing:.04em">
+            ±{{ bandwidth() / 2 }} MHz
+          </div>
+        </div>
       </div>
 
       <!-- Presets -->
