@@ -53,8 +53,9 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   private initMap(): void {
     this.map = L.map('leaflet-map', { center: [48.5, 32.0], zoom: 6, zoomControl: false });
 
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-      attribution: '© OpenStreetMap © CartoDB', maxZoom: 19
+    // OSM tiles need no API key; darkened via the .dark-tiles CSS filter in styles.css
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors', maxZoom: 19, className: 'dark-tiles'
     }).addTo(this.map);
 
     L.control.zoom({ position: 'topright' }).addTo(this.map);
